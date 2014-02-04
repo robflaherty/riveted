@@ -23,8 +23,6 @@
 
   $.riveted = function(options) {
     
-    var startTime = Date.now();
-
     var active = false;
 
     options = $.extend({}, defaults, options);
@@ -106,10 +104,9 @@
 
 
 
-    function startRiveted() {
+    function startRiveted(diff) {
       
       started = true;
-      lastTime = Date.now();
 
       setIdle = setTimeout(checkIdle, 3000);
 
@@ -126,13 +123,20 @@
 
     }
 
+/*
+ * Time lapsed until engaged could be an interesting metric.
+ * Send a user timing event on the first ping? I think so.
+ */
 
     function resetActive() {
 
       console.log('reset');
 
+      var currentTime = new Date();
+      var diff = Math.floor((currentTime - startTime)/1000);  
+
       if (!started) {
-        startRiveted();
+        startRiveted(diff);
       } else {
         active = true;
         clearTimeout(setIdle);
@@ -141,8 +145,12 @@
     }
 
     function init() {
+
+      var startTime = Date.now();
+
       $(document).on('keypress click', resetActive);
       $(window).on('scroll', throttle(resetActive, 500));
+
     }
 
     init();
