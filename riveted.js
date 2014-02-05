@@ -6,19 +6,13 @@
 
 var riveted = (function() {
     
-    var active = false;
-
-    var started = false;
-
-    var clock = 0;
-
-    var setIdle = null;
-
-    var startTime = new Date();
-
-    var idleTimeout = 5000;
-
-
+    var active = false,
+      started = false,
+      setIdle = null,
+      clock = 0,
+      startTime = new Date(),
+      pingInterval = 2000,
+      idleTimeout = 10000;
 
     /*
      * Functions
@@ -57,27 +51,47 @@ var riveted = (function() {
         }
         return result;
       };
-    }     
+    }
 
-    function sendEvent(action, label, timing) {
+    /*
+     * Send a User Timing event when active behavior begins
+     */
+
+    function sendUserTiming(timingVar, timingValue) {
+      
+      if (typeof(ga) !== "undefined") {
+        ga('send', 'timing', 'Riveted', timingVar, timingValue);
+      }
+      
+      if (typeof(_gaq) !== "undefined") {
+        _gaq.push(['_trackTiming', 'Riveted', timingVar, timingValue, null, 100]);
+      }
+
+      if (typeof(dataLayer) !== "undefined") {
+        dataLayer.push({'event':'RivetedTiming', 'eventCategory':'Riveted', 'timingVar': timingVar, 'timingValue': timingValue});
+      }
+
+    }
+
+    /* 
+     * Sending Event
+     */
+
+    function sendEvent(time) {
 
       console.log('Ping');
 
-        if (timing) {
-          //User Timing ping
-        }
+      if (typeof(ga) !== "undefined") {
+        ga('send', 'event', 'Riveted', 'Time Spent', 'Seconds', time, {'nonInteraction': 1});
+      }
 
-        if (typeof(ga) !== "undefined") {
-          //ga('send', 'event', 'Riveted', action, label, 1);
-        }
+      if (typeof(_gaq) !== "undefined") {
+        _gaq.push(['_trackEvent', 'Riveted', 'Time Spent', 'Seconds', time, true]);
+      }
 
-        if (typeof(_gaq) !== "undefined") {
-          //_gaq.push(['_trackEvent', 'Riveted', action, label, 1]);
-        }
-
-        if (typeof(dataLayer) !== "undefined") {
-          //dataLayer.push({'event':'Riveted', 'eventCategory':'Riveted', 'eventAction': action, 'eventLabel': label, 'eventValue': 1});
-        }
+      if (typeof(dataLayer) !== "undefined") {
+        dataLayer.push({'event':'Riveted', 'eventCategory':'Riveted', 'eventAction': 'Time Spent', 'eventLabel': 'Seconds', 'eventValue': time, 'eventNonInteraction': true});
+      }
 
     }
 
@@ -96,22 +110,22 @@ var riveted = (function() {
       started = true;
 
       // Send User Timing Event
-      sendEvent('Riveted', 'First Interaction', diff);
+      sendUserTiming('First Interaction', null, diff);
 
       function ping() {
         
         if (active) {
-          clock += 5;
+          clock += pingInterval / 1000;
           console.log('Total time: ' + clock);
           //sendEvent('Ping', currentCount);
-          setTimeout(ping, idleTimeout)
+          setTimeout(ping, pingInterval)
         } else {
           console.log('idle');
-          setTimeout(ping, idleTimeout)
+          setTimeout(ping, pingInterval)
         }
       }
 
-      setTimeout(ping, idleTimeout);
+      setTimeout(ping, pingInterval);
 
     }
 
@@ -134,7 +148,7 @@ var riveted = (function() {
       }
       
       clearTimeout(setIdle);
-      setIdle = setTimeout(checkIdle, 3000);
+      setIdle = setTimeout(checkIdle, idleTimeout);
     }
 
     function init() {
