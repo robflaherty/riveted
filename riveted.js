@@ -4,34 +4,21 @@
  * Licensed under the MIT and GPL licenses.
  */
 
-;(function ($,window,document,undefined) {
-  
-  var defaults = {
-    elements: [],
-    minHeight: 0,
-    percentage: true,
-    testing: false
-  },
-
-  $window = $(window),
-  
-  cache = [];
-
-  /*
-   * Plugin
-   */
-
-  $.riveted = function(options) {
+var riveted = (function() {
     
     var active = false;
 
-    options = $.extend({}, defaults, options);
-
-    var setIdle;
-
-    var startCount = 0;
-
     var started = false;
+
+    var clock = 0;
+
+    var setIdle = null;
+
+    var startTime = new Date();
+
+    var idleTimeout = 5000;
+
+
 
     /*
      * Functions
@@ -72,11 +59,13 @@
       };
     }     
 
-    function sendEvent(action, label) {
+    function sendEvent(action, label, timing) {
 
       console.log('Ping');
 
-      if (!options.testing) {
+        if (timing) {
+          //User Timing ping
+        }
 
         if (typeof(ga) !== "undefined") {
           //ga('send', 'event', 'Riveted', action, label, 1);
@@ -90,11 +79,6 @@
           //dataLayer.push({'event':'Riveted', 'eventCategory':'Riveted', 'eventAction': action, 'eventLabel': label, 'eventValue': 1});
         }
 
-      } else {
-
-        console.log('action: ' + action + '; label: ' + label);
-
-      }
     }
 
     function checkIdle() {
@@ -106,56 +90,63 @@
 
     function startRiveted(diff) {
       
+      console.log(diff);
+
+      // Set global
       started = true;
 
-      setIdle = setTimeout(checkIdle, 3000);
+      // Send User Timing Event
+      sendEvent('Riveted', 'First Interaction', diff);
 
-      var pingCheck = setInterval(function() {
+      function ping() {
+        
         if (active) {
-          sendEvent('Ping', currentCount);
+          clock += 5;
+          console.log('Total time: ' + clock);
+          //sendEvent('Ping', currentCount);
+          setTimeout(ping, idleTimeout)
         } else {
-          console.log('Idle');
+          console.log('idle');
+          setTimeout(ping, idleTimeout)
         }
-      }, 1000);
+      }
 
-
-
+      setTimeout(ping, idleTimeout);
 
     }
 
-/*
- * Time lapsed until engaged could be an interesting metric.
- * Send a user timing event on the first ping? I think so.
- */
 
-    function resetActive() {
+    function startTimer() {
 
-      console.log('reset');
+    }
+
+    function trigger() {
+
+      //console.log('trigger');
+
+      active = true;
 
       var currentTime = new Date();
       var diff = Math.floor((currentTime - startTime)/1000);  
 
       if (!started) {
         startRiveted(diff);
-      } else {
-        active = true;
-        clearTimeout(setIdle);
-        setIdle = setTimeout(checkIdle, 3000);
       }
+      
+      clearTimeout(setIdle);
+      setIdle = setTimeout(checkIdle, 3000);
     }
 
     function init() {
 
-      var startTime = Date.now();
-
-      $(document).on('keypress click', resetActive);
-      $(window).on('scroll', throttle(resetActive, 500));
+      document.addEventListener('keypress', trigger, false);
+      document.addEventListener('click', trigger, false);
+      window.addEventListener('scroll', throttle(trigger, 500), false);
 
     }
 
     init();
 
 
-  };
+  })();
 
-})(jQuery,window,document);
