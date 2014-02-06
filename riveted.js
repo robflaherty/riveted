@@ -8,11 +8,14 @@ var riveted = (function() {
     
     var active = false,
       started = false,
-      setIdle = null,
-      clock = 0,
+      stopped = false,
+      idleTimer = null,
+      clockTime = 0,
       startTime = new Date(),
-      pingInterval = 2000,
-      idleTimeout = 10000;
+      lastTime = null,
+      pingInterval = 2,
+      reportInterval = 5,
+      idleTimeout = 10;
 
     /*
      * Functions
@@ -95,60 +98,101 @@ var riveted = (function() {
 
     }
 
-    function checkIdle() {
+    function setIdle() {
       active = false;
-      console.log('Setting to false');
+      console.log('Setting to idle');
+      stopClock();
+    }
+
+    
+    function startClock() {
+      lastTime = new Date();
+    }
+
+    function resetClock() {
+      lastTime = new Date();
+    }    
+
+    function stopClock() {
+      lastTime = null;
+      stopped = true;
+    }
+
+    function checkClock() {
+
+      if (active) {
+
+        if (stopped) {
+          stopped = false;
+          resetClock();
+        }
+
+        var currentTime = new Date();
+        var diff = Math.floor((currentTime - lastTime)/1000);
+
+        console.log('Diff: ' + diff);
+        
+        if (diff >= reportInterval) {
+          clockTime += reportInterval;
+          resetClock();
+        }
+
+        console.log('Clock time: ' + clockTime);
+
     }
 
 
 
-    function startRiveted(diff) {
-      
-      console.log(diff);
+    }
 
+
+
+    function startRiveted() {
+
+      var currentTime = new Date();
+      var diff = Math.floor((currentTime - startTime)/1000);        
+      
       // Set global
       started = true;
+
+      startClock();
 
       // Send User Timing Event
       sendUserTiming('First Interaction', null, diff);
 
       function ping() {
         
+        checkClock();
+        setTimeout(ping, 1000)
+
+        /*
         if (active) {
-          clock += pingInterval / 1000;
-          console.log('Total time: ' + clock);
-          //sendEvent('Ping', currentCount);
+          clockTime += pingInterval / 1000;
+          console.log('Total time: ' + clockTime);
+          sendEvent(clockTime);
           setTimeout(ping, pingInterval)
         } else {
           console.log('idle');
           setTimeout(ping, pingInterval)
         }
+        */
       }
 
-      setTimeout(ping, pingInterval);
+      setTimeout(ping, 1000);
 
     }
 
-
-    function startTimer() {
-
-    }
 
     function trigger() {
 
-      //console.log('trigger');
-
       active = true;
 
-      var currentTime = new Date();
-      var diff = Math.floor((currentTime - startTime)/1000);  
-
       if (!started) {
-        startRiveted(diff);
+        startRiveted();
       }
       
-      clearTimeout(setIdle);
-      setIdle = setTimeout(checkIdle, idleTimeout);
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(setIdle, idleTimeout * 1000 + 100);
     }
 
     function init() {
