@@ -5,25 +5,16 @@
  */
 
 //var riveted = (function() {
-    
-    var active = false,
-      started = false,
+
+    var started = false,
       stopped = false,
       clockTime = 0,
       startTime = new Date(),
-      lastTime = null,
-      pingInterval = 2,
       reportInterval = 5,
       idleTimeout = 10,
 
       clockTimer = null,
-      reporterTimer = null,
       idleTimer = null;
-
-
-    /*
-     * Functions
-     */
 
     /*
      * Throttle function borrowed from:
@@ -65,11 +56,11 @@
      */
 
     function sendUserTiming(timingVar, timingValue) {
-      
+
       if (typeof(ga) !== "undefined") {
         ga('send', 'timing', 'Riveted', timingVar, timingValue);
       }
-      
+
       if (typeof(_gaq) !== "undefined") {
         _gaq.push(['_trackTiming', 'Riveted', timingVar, timingValue, null, 100]);
       }
@@ -80,7 +71,7 @@
 
     }
 
-    /* 
+    /*
      * Sending Event
      */
 
@@ -103,70 +94,59 @@
     }
 
     function setIdle() {
-      active = false;
-      console.log('Setting to idle');
       stopClock();
+      console.log('Setting to idle');
     }
-    
+
     function clock() {
       clockTime += 1;
+      console.log(clockTime);
+      if (clockTime > 0 && (clockTime % reportInterval == 0)) {
+        console.log('Report Time: ' + clockTime);
+      }
+
     }
 
     function stopClock() {
+      stopped = true;
       clearTimeout(clockTimer);
       console.log('stopping: ' + clockTime);
-      stopped = true;
-      // call reporter function
     }
 
-    function reporter() {
-      if (clockTime > 0 && (clockTime % reportInterval == 0)) {
-        //console.log('Report Time: ' + clockTime);
-      }
+    function restartClock() {
+      stopped = false;
+      clearTimeout(clockTimer);
+        clockTimer = setInterval(clock, 1000);
     }
-
-    function check() {
-      if (active) {
-        if (stopped) {
-          stopped = false;
-          clearTimeout(clockTimer);  
-          clockTimer = setInterval(clock, 1000);
-        }
-        console.log('Clock time: ' + clockTime);
-      }
-    }
-
-
 
     function startRiveted() {
 
+      // Calculate seconds from start to first interaction
       var currentTime = new Date();
-      var diff = Math.floor((currentTime - startTime)/1000);        
-      
+      var diff = Math.floor((currentTime - startTime)/1000);
+
       // Set global
       started = true;
 
       // Send User Timing Event
       sendUserTiming('First Interaction', null, diff);
 
+      // Start clock
       clockTimer = setInterval(clock, 1000);
-
-      checkTimer = setInterval(check, 1100);
-
-      reporterTimer = setInterval(reporter, 1200);
-
 
     }
 
 
     function trigger() {
 
-      active = true;
-
       if (!started) {
         startRiveted();
       }
-      
+
+      if (stopped) {
+        restartClock();
+      }
+
       clearTimeout(idleTimer);
       idleTimer = setTimeout(setIdle, idleTimeout * 1000 + 100);
     }
