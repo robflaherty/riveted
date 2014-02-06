@@ -4,18 +4,22 @@
  * Licensed under the MIT and GPL licenses.
  */
 
-var riveted = (function() {
+//var riveted = (function() {
     
     var active = false,
       started = false,
       stopped = false,
-      idleTimer = null,
       clockTime = 0,
       startTime = new Date(),
       lastTime = null,
       pingInterval = 2,
       reportInterval = 5,
-      idleTimeout = 10;
+      idleTimeout = 10,
+
+      clockTimer = null,
+      reporterTimer = null,
+      idleTimer = null;
+
 
     /*
      * Functions
@@ -103,46 +107,33 @@ var riveted = (function() {
       console.log('Setting to idle');
       stopClock();
     }
-
     
-    function startClock() {
-      lastTime = new Date();
+    function clock() {
+      clockTime += 1;
     }
-
-    function resetClock() {
-      lastTime = new Date();
-    }    
 
     function stopClock() {
-      lastTime = null;
+      clearTimeout(clockTimer);
+      console.log('stopping: ' + clockTime);
       stopped = true;
+      // call reporter function
     }
 
-    function checkClock() {
+    function reporter() {
+      if (clockTime > 0 && (clockTime % reportInterval == 0)) {
+        //console.log('Report Time: ' + clockTime);
+      }
+    }
 
+    function check() {
       if (active) {
-
         if (stopped) {
           stopped = false;
-          resetClock();
+          clearTimeout(clockTimer);  
+          clockTimer = setInterval(clock, 1000);
         }
-
-        var currentTime = new Date();
-        var diff = Math.floor((currentTime - lastTime)/1000);
-
-        console.log('Diff: ' + diff);
-        
-        if (diff >= reportInterval) {
-          clockTime += reportInterval;
-          resetClock();
-        }
-
         console.log('Clock time: ' + clockTime);
-
-    }
-
-
-
+      }
     }
 
 
@@ -155,30 +146,15 @@ var riveted = (function() {
       // Set global
       started = true;
 
-      startClock();
-
       // Send User Timing Event
       sendUserTiming('First Interaction', null, diff);
 
-      function ping() {
-        
-        checkClock();
-        setTimeout(ping, 1000)
+      clockTimer = setInterval(clock, 1000);
 
-        /*
-        if (active) {
-          clockTime += pingInterval / 1000;
-          console.log('Total time: ' + clockTime);
-          sendEvent(clockTime);
-          setTimeout(ping, pingInterval)
-        } else {
-          console.log('idle');
-          setTimeout(ping, pingInterval)
-        }
-        */
-      }
+      checkTimer = setInterval(check, 1100);
 
-      setTimeout(ping, 1000);
+      reporterTimer = setInterval(reporter, 1200);
+
 
     }
 
@@ -206,5 +182,5 @@ var riveted = (function() {
     init();
 
 
-  })();
+  //})();
 
