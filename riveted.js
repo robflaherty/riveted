@@ -52,6 +52,22 @@
     }
 
     /*
+     * Event listening
+     */
+
+    function addListener(element, eventName, handler) {
+      if (element.addEventListener) {
+        element.addEventListener(eventName, handler, false);
+      }
+      else if (element.attachEvent) {
+        element.attachEvent('on' + eventName, handler);
+      }
+      else {
+        element['on' + eventName] = handler;
+      }
+    }
+
+    /*
      * Send a User Timing event when active behavior begins
      */
 
@@ -161,15 +177,14 @@
 
     function init() {
 
-      document.addEventListener('keydown', trigger, false);
-      document.addEventListener('click', trigger, false);
+      addListener(document, 'keydown', trigger);
+      addListener(document, 'click', trigger);
 
-      window.addEventListener('mousemove', throttle(trigger, 500), false);
-      window.addEventListener('scroll', throttle(trigger, 500), false);
+      addListener(window, 'mousemove', throttle(trigger, 500));
+      addListener(window, 'scroll', throttle(trigger, 500));
 
       document.addEventListener('visibilitychange', visibilityChange, false);
       document.addEventListener('webkitvisibilitychange', visibilityChange, false);
-
 
     }
 
