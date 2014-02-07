@@ -4,17 +4,17 @@
  * Licensed under the MIT and GPL licenses.
  */
 
-//var riveted = (function() {
+var Riveted = function(options) {
 
     var started = false,
       stopped = false,
       clockTime = 0,
       startTime = new Date(),
-      reportInterval = 5,
-      idleTimeout = 10,
-
       clockTimer = null,
-      idleTimer = null;
+      idleTimer = null,
+
+      reportInterval = options.reportInterval ? options.reportInterval : 5,
+      idleTimeout = options.idleTimeout ? options.idleTimeout : 30;
 
     /*
      * Throttle function borrowed from:
@@ -191,5 +191,5 @@
     init();
 
 
-  //})();
+  };
 
