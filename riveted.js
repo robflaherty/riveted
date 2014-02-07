@@ -98,6 +98,15 @@
       console.log('Setting to idle');
     }
 
+    function visibilityChange() {
+      if (document.hidden || document.webkitHidden) {
+        console.log('hidden yo');
+        stopClock();
+      } else {
+        console.log('ooh we back');
+      }
+    }
+
     function clock() {
       clockTime += 1;
       console.log(clockTime);
@@ -136,7 +145,6 @@
 
     }
 
-
     function trigger() {
 
       if (!started) {
@@ -153,9 +161,15 @@
 
     function init() {
 
-      document.addEventListener('keypress', trigger, false);
+      document.addEventListener('keydown', trigger, false);
       document.addEventListener('click', trigger, false);
+
+      window.addEventListener('mousemove', throttle(trigger, 500), false);
       window.addEventListener('scroll', throttle(trigger, 500), false);
+
+      document.addEventListener('visibilitychange', visibilityChange, false);
+      document.addEventListener('webkitvisibilitychange', visibilityChange, false);
+
 
     }
 
