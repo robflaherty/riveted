@@ -15,7 +15,8 @@ var Riveted = function(options) {
 
       options = options || {},
       reportInterval = parseInt(options.reportInterval, 10) || 5,
-      idleTimeout = parseInt(options.idleTimeout, 10) || 30;
+      idleTimeout = parseInt(options.idleTimeout, 10) || 30,
+      nonInteraction = options.nonInteraction || true;
 
     /*
      * Throttle function borrowed from:
@@ -95,15 +96,15 @@ var Riveted = function(options) {
     function sendEvent(time) {
 
       if (typeof(ga) !== "undefined") {
-        ga('send', 'event', 'Riveted Test 4', 'Time Spent', time.toString(), reportInterval, {'nonInteraction': 1});
+        ga('send', 'event', 'Riveted Test 4', 'Time Spent', time.toString(), reportInterval, {'nonInteraction': nonInteraction});
       }
 
       if (typeof(_gaq) !== "undefined") {
-        _gaq.push(['_trackEvent', 'Riveted Test 4', 'Time Spent', time.toString(), reportInterval, true]);
+        _gaq.push(['_trackEvent', 'Riveted Test 5', 'Time Spent', time.toString(), reportInterval, nonInteraction]);
       }
 
       if (typeof(dataLayer) !== "undefined") {
-        dataLayer.push({'event':'Riveted', 'eventCategory':'Riveted', 'eventAction': 'Time Spent', 'eventLabel': 'Seconds', 'eventValue': time, 'eventNonInteraction': true});
+        dataLayer.push({'event':'Riveted', 'eventCategory':'Riveted', 'eventAction': 'Time Spent', 'eventLabel': 'Seconds', 'eventValue': time, 'eventNonInteraction': nonInteraction});
       }
 
     }
