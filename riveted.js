@@ -13,8 +13,9 @@ var Riveted = function(options) {
       clockTimer = null,
       idleTimer = null,
 
-      reportInterval = options.reportInterval ? options.reportInterval : 5,
-      idleTimeout = options.idleTimeout ? options.idleTimeout : 30;
+      options = options || {},
+      reportInterval = parseInt(options.reportInterval, 10) || 5,
+      idleTimeout = parseInt(options.idleTimeout, 10) || 30;
 
     /*
      * Throttle function borrowed from:
@@ -71,18 +72,18 @@ var Riveted = function(options) {
      * Send a User Timing event when active behavior begins
      */
 
-    function sendUserTiming(timingVar, timingValue) {
+    function sendUserTiming(timingValue) {
 
       if (typeof(ga) !== "undefined") {
-        ga('send', 'timing', 'Riveted', timingVar, timingValue);
+        ga('send', 'timing', 'Riveted Test', 'First Interaction', timingValue);
       }
 
       if (typeof(_gaq) !== "undefined") {
-        _gaq.push(['_trackTiming', 'Riveted', timingVar, timingValue, null, 100]);
+        _gaq.push(['_trackTiming', 'Riveted Test', 'First Interaction', timingValue, null, 100]);
       }
 
       if (typeof(dataLayer) !== "undefined") {
-        dataLayer.push({'event':'RivetedTiming', 'eventCategory':'Riveted', 'timingVar': timingVar, 'timingValue': timingValue});
+        dataLayer.push({'event':'RivetedTiming', 'eventCategory':'Riveted', 'timingVar': 'First Interaction', 'timingValue': timingValue});
       }
 
     }
@@ -93,14 +94,12 @@ var Riveted = function(options) {
 
     function sendEvent(time) {
 
-      console.log('Ping');
-
       if (typeof(ga) !== "undefined") {
-        ga('send', 'event', 'Riveted', 'Time Spent', 'Seconds', time, {'nonInteraction': 1});
+        ga('send', 'event', 'Riveted Test 4', 'Time Spent', time.toString(), reportInterval, {'nonInteraction': 1});
       }
 
       if (typeof(_gaq) !== "undefined") {
-        _gaq.push(['_trackEvent', 'Riveted', 'Time Spent', 'Seconds', time, true]);
+        _gaq.push(['_trackEvent', 'Riveted Test 4', 'Time Spent', time.toString(), reportInterval, true]);
       }
 
       if (typeof(dataLayer) !== "undefined") {
@@ -127,6 +126,7 @@ var Riveted = function(options) {
       clockTime += 1;
       console.log(clockTime);
       if (clockTime > 0 && (clockTime % reportInterval == 0)) {
+        sendEvent(clockTime);
         console.log('Report Time: ' + clockTime);
       }
 
@@ -148,13 +148,13 @@ var Riveted = function(options) {
 
       // Calculate seconds from start to first interaction
       var currentTime = new Date();
-      var diff = Math.floor((currentTime - startTime)/1000);
+      var diff = currentTime - startTime;
 
       // Set global
       started = true;
 
       // Send User Timing Event
-      sendUserTiming('First Interaction', null, diff);
+      sendUserTiming(diff);
 
       // Start clock
       clockTimer = setInterval(clock, 1000);
