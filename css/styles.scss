@@ -1,22 +1,22 @@
 @-webkit-keyframes myanim {
-  0%   { opacity: 0.2; }
-  50%  { opacity: 1.0; }
-  100% { opacity: 0.2; }
+  0%   { opacity: 1.0; }
+  50%  { opacity: 0.7; }
+  100% { opacity: 1.0; }
 }
 @-moz-keyframes myanim {
-  0%   { opacity: 0.2; }
+  0%   { opacity: 0.5; }
   50%  { opacity: 1.0; }
-  100% { opacity: 0.2; }
+  100% { opacity: 0.5; }
 }
 @-o-keyframes myanim {
-  0%   { opacity: 0.2; }
+  0%   { opacity: 0.5; }
   50%  { opacity: 1.0; }
-  100% { opacity: 0.2; }
+  100% { opacity: 0.5; }
 }
 @keyframes myanim {
-  0%   { opacity: 0.2; }
+  0%   { opacity: 0.5; }
   50%  { opacity: 1.0; }
-  100% { opacity: 0.2; }
+  100% { opacity: 0.5; }
 }
 
 /* global box-sizing */
@@ -31,17 +31,17 @@
   text-rendering:optimizeLegibility;
 }
 
-$body-start: darken(#D23131, 0);
-$body-end: darken($body-start, 15);
+$body-bg: darken(rgb(22,53,111), 0);
+$text-color: rgb(229,243,254);
+//$text-color: lighten(rgb(170,186,212), 20);
+$h1-color: lighten(rgb(170,186,212), 10);
+$h2-color: lighten(rgb(170,186,212), 0);
 
-body { padding: 0; margin: 0; font-family: 'Lato'; font-size: 20px; line-height: 1.5; color: #fff; position: relative;
 
-  background-color: $body-end;
-  background-image: -webkit-gradient(linear, left top, left bottom, from($body-start), to($body-end)); /* Chrome, Safari 4+ */
-  background-image: -webkit-linear-gradient(top, $body-start, $body-end); /* Chrome 10-25, iOS 5+, Safari 5.1+ */
-  background-image:    -moz-linear-gradient(top, $body-start, $body-end); /* Firefox 3.6-15 */
-  background-image:      -o-linear-gradient(top, $body-start, $body-end); /* Opera 11.10-12.00 */
-  background-image:         linear-gradient(to bottom, $body-start, $body-end); /* Chrome 26, Firefox 16+, IE 10+, Opera 12.10+ */
+
+body { padding: 0; margin: 0; font-family: 'Lato'; font-size: 20px; line-height: 1.5; color: $text-color; position: relative;
+
+  background-color: $body-bg;
 
 
 }
@@ -50,9 +50,19 @@ body { padding: 0; margin: 0; font-family: 'Lato'; font-size: 20px; line-height:
 
 //#content .inner { left: -50%; position: relative; }
 
-h1 { font-family: 'Josefin Sans', cursive; font-size: 72px; text-align: center; margin: 0 0 20px; line-height: 1; }
+h1 { font-family: 'Righteous', cursive; font-size: 124px; text-align: center; margin: 0 0 20px; line-height: 1;
 
-h2 { font-family: 'Josefin Slab', cursive; font-size: 36px; text-align: center; line-height: 1.3; margin: 0 0 30px; }
+  color: $h1-color;
+
+  
+//  -webkit-animation: myanim 5s infinite; /* Chrome, Safari 5+ */
+ //    -moz-animation: myanim 5s infinite; /* Firefox 5-15 */
+  //     -o-animation: myanim 5s infinite; /* Opera 12.00 */
+   //       animation: myanim 5s infinite; /* Chrome, Firefox 16+, IE 10+, Opera 12.10+ */
+
+ }
+
+h2 { font-family: 'Lato', cursive; font-size: 30px; text-align: center; line-height: 1.3; margin: 0 0 30px; color: $h2-color; font-weight: bold; }
 
 h3 { margin: 0; text-align: center; }
 

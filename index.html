@@ -5,17 +5,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-  <title>Scroll Depth - A Google Analytics plugin to track page scrolling</title>
-  <link rel="canonical" href="http://projects.parsnip.io/scroll-depth/" />
+  <title>Riveted - A Google Analytics plugin for measuring active time on site</title>
 
-  <script>
-    if (window.location.href.indexOf('http://robflaherty.github.io') === 0) {
-      window.location.href = 'http://projects.parsnip.io/scroll-depth/';
-    }
-  </script>  
-
-  <link href='http://fonts.googleapis.com/css?family=Lato|Josefin+Sans:400,600,700|Josefin+Slab' rel='stylesheet' type='text/css'>
   <link href="css/normalize.css" rel="stylesheet" />
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Righteous' rel='stylesheet' type='text/css'>
   <link href="css/prism.css" rel="stylesheet" />
   <link href="css/styles.css" rel="stylesheet" />
 
@@ -28,16 +21,13 @@
     ga('create', 'UA-1413210-12', 'parsnip.io');
     ga('send', 'pageview');
   </script>
-  
-  <script src="js/jquery-1.10.2.js"></script>
-  <script src="js/modernizr.custom.61372.js"></script>
+
 </head>
 <body>
   <div id="content">
   <div class="inner">
-  <h1>Scroll Depth</h1>
-  <h2>A Google Analytics plugin to track page scrolling</h2>
-<img src="img/scroll-depth-chart.png" alt="Google Analytics Scroll Depth Tracking" class="img1" />
+  <h1>Riveted</h1>
+  <h2>A Google Analytics plugin for measuring active time on site</h2>
 
 <p>Scroll Depth is a small Google Analytics plugin that tracks how far users are scrolling. It monitors the 25%, 50%, 75%, and 100% scroll marks, sending a Google Analytics Event at each one.</p>
 
@@ -101,20 +91,13 @@ $.scrollDepth({
 <p>Tested in the latest versions of Chrome, Firefox, Safari, and Opera. Also works in IE 7-10. Also tested on iOS, Opera Mobile, and a few Android emulators.</p>
 
 <h2>Contact</h2>
-<p>If you have any questions you can find me on Twitter at <a href="https://twitter.com/robflaherty" target="_blank">@robflaherty</a>. If you want to get into the nerdier stuff, <a href="https://github.com/robflaherty/jquery-scrolldepth" target="_blank" >you know where to go</a>.</p>
+<p>If you have any questions you can find me on Twitter at <a href="https://twitter.com/robflaherty" target="_blank">@robflaherty</a>.</p>
 
 <h2>License</h2>
 
-<p style="margin: 0;">Licensed under the MIT and GPL licenses.</p>  
+<p style="margin: 0;">Licensed under the MIT license.</p>  
 </div>
 </div>
-
-  <div id="q1" class="q" data-scroll="25%"><span>25%</span><i>&middot;</i></div>
-  <div id="q2" class="q" data-scroll="50%"><span>50%</span><i>&middot;</i></div>
-  <div id="q3" class="q" data-scroll="75%"><span>75%</span><i>&middot;</i></div>
-  <div id="q4" class="q" data-scroll="100%"><span>100%</span><i>&middot;</i></div>
-
-  <script src="js/prism.js"></script>  
-  <script src="js/main.js"></script>
+<script src="js/prism.js"></script>  
 </body>
 </html>
