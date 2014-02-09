@@ -115,11 +115,11 @@ var riveted = (function() {
     function sendEvent(time) {
 
       if (typeof(ga) !== "undefined") {
-        ga('send', 'event', 'Riveted Test 4', 'Time Spent', time.toString(), reportInterval, {'nonInteraction': nonInteraction});
+        ga('send', 'event', 'Riveted Test 6', 'Time Spent', time.toString(), reportInterval, {'nonInteraction': nonInteraction});
       }
 
       if (typeof(_gaq) !== "undefined") {
-        _gaq.push(['_trackEvent', 'Riveted Test 5', 'Time Spent', time.toString(), reportInterval, nonInteraction]);
+        _gaq.push(['_trackEvent', 'Riveted Test 6', 'Time Spent', time.toString(), reportInterval, nonInteraction]);
       }
 
       if (typeof(dataLayer) !== "undefined") {
@@ -131,24 +131,18 @@ var riveted = (function() {
     function setIdle() {
       clearTimeout(idleTimer);
       stopClock();
-      console.log('Setting to idle');
     }
 
     function visibilityChange() {
       if (document.hidden || document.webkitHidden) {
-        console.log('hidden yo');
         setIdle();
-      } else {
-        console.log('ooh we back');
       }
     }
 
     function clock() {
       clockTime += 1;
-      console.log(clockTime);
-      if (clockTime > 0 && (clockTime % reportInterval == 0)) {
+      if (clockTime > 0 && (clockTime % reportInterval === 0)) {
         sendEvent(clockTime);
-        console.log('Report Time: ' + clockTime);
       }
 
     }
@@ -156,13 +150,12 @@ var riveted = (function() {
     function stopClock() {
       stopped = true;
       clearTimeout(clockTimer);
-      console.log('stopping: ' + clockTime);
     }
 
     function restartClock() {
       stopped = false;
       clearTimeout(clockTimer);
-        clockTimer = setInterval(clock, 1000);
+      clockTimer = setInterval(clock, 1000);
     }
 
     function startRiveted() {
