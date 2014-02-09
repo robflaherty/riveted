@@ -1,7 +1,7 @@
 /*!
  * riveted.js | v0.1
  * Copyright (c) 2014 Rob Flaherty (@robflaherty)
- * Licensed under the MIT and GPL licenses.
+ * Licensed under the MIT license
  */
 
 var riveted = (function() {
@@ -95,11 +95,11 @@ var riveted = (function() {
     function sendUserTiming(timingValue) {
 
       if (typeof(ga) !== "undefined") {
-        ga('send', 'timing', 'Riveted Test', 'First Interaction', timingValue);
+        ga('send', 'timing', 'Riveted', 'First Interaction', timingValue);
       }
 
       if (typeof(_gaq) !== "undefined") {
-        _gaq.push(['_trackTiming', 'Riveted Test', 'First Interaction', timingValue, null, 100]);
+        _gaq.push(['_trackTiming', 'Riveted', 'First Interaction', timingValue, null, 100]);
       }
 
       if (typeof(dataLayer) !== "undefined") {
@@ -115,11 +115,11 @@ var riveted = (function() {
     function sendEvent(time) {
 
       if (typeof(ga) !== "undefined") {
-        ga('send', 'event', 'Riveted Test 6', 'Time Spent', time.toString(), reportInterval, {'nonInteraction': nonInteraction});
+        ga('send', 'event', 'Riveted', 'Time Spent', time.toString(), reportInterval, {'nonInteraction': nonInteraction});
       }
 
       if (typeof(_gaq) !== "undefined") {
-        _gaq.push(['_trackEvent', 'Riveted Test 6', 'Time Spent', time.toString(), reportInterval, nonInteraction]);
+        _gaq.push(['_trackEvent', 'Riveted', 'Time Spent', time.toString(), reportInterval, nonInteraction]);
       }
 
       if (typeof(dataLayer) !== "undefined") {
