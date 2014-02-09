@@ -4,7 +4,7 @@
  * Licensed under the MIT and GPL licenses.
  */
 
-var Riveted = function(options) {
+var riveted = (function() {
 
     var started = false,
       stopped = false,
@@ -12,11 +12,30 @@ var Riveted = function(options) {
       startTime = new Date(),
       clockTimer = null,
       idleTimer = null,
+      options,
+      reportInterval,
+      idleTimeout,
+      nonInteraction;
 
-      options = options || {},
-      reportInterval = parseInt(options.reportInterval, 10) || 5,
-      idleTimeout = parseInt(options.idleTimeout, 10) || 30,
+    function init(options) {
+
+      // Set up options and defaults
+      options = options || {};
+      reportInterval = parseInt(options.reportInterval, 10) || 5;
+      idleTimeout = parseInt(options.idleTimeout, 10) || 30;
       nonInteraction = options.nonInteraction || true;
+
+      // Basic activity event listeners
+      addListener(document, 'keydown', trigger);
+      addListener(document, 'click', trigger);
+      addListener(window, 'mousemove', throttle(trigger, 500));
+      addListener(window, 'scroll', throttle(trigger, 500));
+
+      // Page visibility listeners
+      document.addEventListener('visibilitychange', visibilityChange, false);
+      document.addEventListener('webkitvisibilitychange', visibilityChange, false);
+    }
+
 
     /*
      * Throttle function borrowed from:
@@ -54,7 +73,7 @@ var Riveted = function(options) {
     }
 
     /*
-     * Event listening
+     * Cross-browser event listening
      */
 
     function addListener(element, eventName, handler) {
@@ -70,7 +89,7 @@ var Riveted = function(options) {
     }
 
     /*
-     * Send a User Timing event when active behavior begins
+     * Function for logging User Timing event on initial interaction
      */
 
     function sendUserTiming(timingValue) {
@@ -90,7 +109,7 @@ var Riveted = function(options) {
     }
 
     /*
-     * Sending Event
+     * Function for logging ping events
      */
 
     function sendEvent(time) {
@@ -110,6 +129,7 @@ var Riveted = function(options) {
     }
 
     function setIdle() {
+      clearTimeout(idleTimer);
       stopClock();
       console.log('Setting to idle');
     }
@@ -117,7 +137,7 @@ var Riveted = function(options) {
     function visibilityChange() {
       if (document.hidden || document.webkitHidden) {
         console.log('hidden yo');
-        stopClock();
+        setIdle();
       } else {
         console.log('ooh we back');
       }
@@ -176,21 +196,10 @@ var Riveted = function(options) {
       idleTimer = setTimeout(setIdle, idleTimeout * 1000 + 100);
     }
 
-    function init() {
-
-      addListener(document, 'keydown', trigger);
-      addListener(document, 'click', trigger);
-
-      addListener(window, 'mousemove', throttle(trigger, 500));
-      addListener(window, 'scroll', throttle(trigger, 500));
-
-      document.addEventListener('visibilitychange', visibilityChange, false);
-      document.addEventListener('webkitvisibilitychange', visibilityChange, false);
-
+    return {
+      init: init,
+      trigger: trigger,
+      setIdle: setIdle,
     }
 
-    init();
-
-
-  };
-
+  })();
