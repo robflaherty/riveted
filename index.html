@@ -29,12 +29,11 @@
   <h1>Riveted</h1>
   <h2>A Google Analytics plugin for measuring active time on site</h2>
 
-  <p>Riveted keeps track of how much time users spend actively engaged on your site and then records the time in Google Analytics.
+  <p>Google Analytics does a lot of things really well but the way it measures visit duration—by calculating the time difference between subsequent pageviews—provides only a partial view of how much time is actually spent on site.</p>
+
+  <p>Riveted helps fix this by measuring the amount of time users are actively engaged (e.g., clicking, scrolling, using the keyboard) and then reporting the data to Google Analytics in frequent intervals.
   </p>
-
-  <p></p>
  
-
   <p>It supports Universal Analytics, Classic Google Analytics, and Google Tag Manager. It has no other dependencies.</p>
 
 <p class="buttons">
@@ -44,9 +43,16 @@
 
 
 <h2>Details</h2>
+
  <p>The plugin listens for mouse movements, clicks, scrolling, and keyboard activity to define an active user. It also checks whether the tab is currently visible.</p>
 
  <p>Every 5 seconds it check if the user is active and pings Google Analytics. If the user goes 30 seconds without registering an action the user is considered idle.</p>
+
+ <p>You'll find the data in the dashboard under Events > Riveted. Each Event Label represents a duration of seconds. The Event Value shows the total number of seconds. Giving each tick of the clock its own label like this allows you to use Advanced Segments to create segments based on engagement time.</p>
+
+  <p>The first interaction also triggers a User Timing Event, which allows you to measure the number of milliseconds from the pageload to the user's first action.</p>
+
+  <p>Depending on your volume of traffic you may need to increase the reporting interval (see Google's <a href="https://developers.google.com/analytics/devguides/collection/gajs/limits-quotas" target="_blank">collection quotas</a>).</p>
 
 <h2>Using it</h2>
 
@@ -69,11 +75,11 @@
 riveted.init({
   reportInterval: 10,   // Default: 5
   idleTimeout: 20,      // Default: 30
-  nonInteraction: false // Default: true
+  nonInteraction: true  // Default: true
 });</code></pre>
 
 <h2>Methods</h2>
-<h3>rivited.trigger()</h3>
+<h3>riveted.trigger()</h3>
 <p>Calling this method restarts the Idle timer. One use for this would be to keep the Riveted timer running while the user watches a video.</p>
 
 <h3>riveted.setIdle()</h3>

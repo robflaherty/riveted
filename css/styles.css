@@ -109,7 +109,7 @@ pre, pre[class*="language-"] {
   display: block; }
 
 a {
-  color: #fff;
+  color: #dde3ee;
   text-decoration: underline; }
 
 a:hover {
@@ -122,7 +122,7 @@ a:hover {
 .button {
   display: inline-block;
   border-radius: 5px;
-  border: 2px solid #fff;
+  border: 2px solid #dde3ee;
   text-decoration: none;
   padding: 10px 20px;
   margin: 0 auto;
@@ -142,54 +142,6 @@ a:hover {
 .button:hover {
   background: #962121; }
 
-.q {
-  position: absolute;
-  width: 100%;
-  padding: 0;
-  font-size: 36px;
-  overflow: hidden; }
-
-.q span {
-  position: absolute;
-  bottom: 0px;
-  left: 10px;
-  opacity: 0.2;
-  border-bottom: 5px solid #fff;
-  transform: translate3d(0, 0, 0);
-  -webkit-transition: all 1s ease-out;
-  /* Chrome 1-25, Safari 3.2+ */
-  -moz-transition: all 1s ease-out;
-  /* Firefox 4-15 */
-  -o-transition: all 1s ease-out;
-  /* Opera 10.50–12.00 */
-  transition: all 1s ease-out;
-  /* Chrome 26, Firefox 16+, IE 10+, Opera 12.10+ */ }
-
-.q span.on {
-  opacity: 0.8; }
-
-.q i {
-  font-style: normal;
-  position: absolute;
-  bottom: 10px;
-  left: 110px;
-  -webkit-transition: all 1s ease-out;
-  /* Chrome 1-25, Safari 3.2+ */
-  -moz-transition: all 1s ease-out;
-  /* Firefox 4-15 */
-  -o-transition: all 1s ease-out;
-  /* Opera 10.50–12.00 */
-  transition: all 1s ease-out;
-  /* Chrome 26, Firefox 16+, IE 10+, Opera 12.10+ */
-  -webkit-animation: myanim 0.8s infinite;
-  /* Chrome, Safari 5+ */
-  -moz-animation: myanim 0.8s infinite;
-  /* Firefox 5-15 */
-  -o-animation: myanim 0.8s infinite;
-  /* Opera 12.00 */
-  animation: myanim 0.8s infinite;
-  /* Chrome, Firefox 16+, IE 10+, Opera 12.10+ */ }
-
 #bottom {
   background: #0e2144;
   padding: 30px 0; }
@@ -197,9 +149,6 @@ a:hover {
     text-align: center; }
 
 /* Hide the scroll marks on smaller screens */
-@media only screen and (max-width: 799px) {
-  .q {
-    display: none; } }
 @media only screen and (max-width: 549px) {
   .wrap {
     padding-left: 20px;

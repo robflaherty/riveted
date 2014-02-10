@@ -75,14 +75,14 @@ img { max-width: 100%; margin:0 0 30px; display: block; }
 
 pre, pre[class*="language-"] { font-size: 14px; margin: 0 0 30px; display: block; }
 
-a { color: #fff; text-decoration: underline; }
+a { color: $text-color; text-decoration: underline; }
 a:hover { text-decoration: none; }
 
 .buttons { text-align: center; margin: 60px 0; }
 
 .button { display: inline-block; border-radius: 5px; 
   //background: darken(#D23131, 30);
-  border: 2px solid #fff;
+  border: 2px solid $text-color;
    text-decoration: none; padding: 10px 20px; margin: 0 auto;
      -webkit-transition: all 0.3s linear;  /* Chrome 1-25, Safari 3.2+ */
      -moz-transition: all 0.3s linear;  /* Firefox 4-15 */
@@ -97,39 +97,6 @@ a:hover { text-decoration: none; }
   background: darken(#D23131, 15);
 }
 
-.q { position: absolute; width: 100%; padding: 0; font-size: 36px; overflow: hidden;
- }
-
-.q span { position: absolute; bottom: 0px; left: 10px; opacity: 0.2; border-bottom: 5px solid #fff;
-transform: translate3d(0,0,0);
--webkit-transition: all 1s ease-out;  /* Chrome 1-25, Safari 3.2+ */
-     -moz-transition: all 1s ease-out;  /* Firefox 4-15 */
-       -o-transition: all 1s ease-out;  /* Opera 10.50–12.00 */
-          transition: all 1s ease-out;  /* Chrome 26, Firefox 16+, IE 10+, Opera 12.10+ */
-
-}
-
-.q span.on { opacity: 0.8;  }
-
-
-.q i {
-  font-style: normal;
-  position: absolute;
-  bottom: 10px;
-  left: 110px;
-
-  -webkit-transition: all 1s ease-out;  /* Chrome 1-25, Safari 3.2+ */
-     -moz-transition: all 1s ease-out;  /* Firefox 4-15 */
-       -o-transition: all 1s ease-out;  /* Opera 10.50–12.00 */
-          transition: all 1s ease-out;  /* Chrome 26, Firefox 16+, IE 10+, Opera 12.10+ */
-
-  -webkit-animation: myanim 0.8s infinite; /* Chrome, Safari 5+ */
-     -moz-animation: myanim 0.8s infinite; /* Firefox 5-15 */
-       -o-animation: myanim 0.8s infinite; /* Opera 12.00 */
-          animation: myanim 0.8s infinite; /* Chrome, Firefox 16+, IE 10+, Opera 12.10+ */
-}
-
-
 #bottom {
   background: darken(rgb(22,53,111), 10);
   padding: 30px 0;
@@ -139,14 +106,7 @@ transform: translate3d(0,0,0);
   }
 }
 
-
-
-
 /* Hide the scroll marks on smaller screens */
-@media only screen and (max-width:799px) {
-  .q { display: none; }
-}
-
 @media only screen and (max-width:549px) {
   .wrap { padding-left: 20px; padding-right: 20px; }
 }
