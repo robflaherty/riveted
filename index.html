@@ -67,7 +67,7 @@
 <p>This number, in seconds, determines both the increment of reporting and the frequency of pinging. The default is 5 seconds.</p>
 
 <h3>idleTimeout</h3>
-<p>This number determines how long a user can go without triggering an event before we consider them inactive. The deafult is 30 seconds.</p>
+<p>This number determines how long a user can go without triggering an event before we consider them inactive. The default is 30 seconds.</p>
 
 <h3>nonInteraction</h3>
 <p>By default, GA Events are sent with the Non-interaction option set to true. This keeps the event from impacting the bounce rate and visit duration. <strong>Caution</strong>: If you set this to false, the bounce rate will drop to near zero and the visit duration will leap. Make sure you know what you're doing before using this option.</p>
@@ -80,6 +80,7 @@ riveted.init({
 });</code></pre>
 
 <h2>Methods</h2>
+<p>There are two available methods for manually interacting with the Riveted timer.</p>
 <h3>riveted.trigger()</h3>
 <p>Calling this method restarts the Idle timer. One use for this would be to keep the Riveted timer running while the user watches a video.</p>
 
@@ -107,7 +108,6 @@ riveted.init({
 
   <h2>Contact</h2>
   <p>If you have any questions you can find me on Twitter:</p>
-
 
   <p>
     <a href="https://twitter.com/robflaherty" target="_blank" class="button button-twitter">@robflaherty</a>
