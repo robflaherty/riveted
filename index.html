@@ -24,56 +24,60 @@
 
 </head>
 <body>
+  <div class="wrap">
   <div id="content">
-  <div class="inner">
   <h1>Riveted</h1>
   <h2>A Google Analytics plugin for measuring active time on site</h2>
 
-<p>Scroll Depth is a small Google Analytics plugin that tracks how far users are scrolling. It monitors the 25%, 50%, 75%, and 100% scroll marks, sending a Google Analytics Event at each one.</p>
+  <p>Riveted keeps track of how much time users spend actively engaged on your site and then records the time in Google Analytics.
+  </p>
 
-<p>You can also track when specific elements on the page are scrolled into view. For example, on a blog, you could send a Scroll Depth event whenever the user reaches the end of a post.</p>
+  <p></p>
+ 
 
-<p>Timing data for scroll events is reported to Google Analytics via the <a href="https://developers.google.com/analytics/devguides/collection/gajs/gaTrackingTiming" target="_blank">User Timing API</a>. This will give you data about how many seconds it takes users to reach each scroll point.</p>
+  <p>It supports Universal Analytics, Classic Google Analytics, and Google Tag Manager. It has no other dependencies.</p>
 
-<p>The plugin supports Universal Analytics, Classic Google Analytics, and Google Tag Manager.</p>
-
-<p class="download">
-  <a href="https://raw.github.com/robflaherty/jquery-scrolldepth/master/jquery.scrolldepth.min.js" target="_blank" class="button button-download">Download (1.8 kb)</a>
-  <a href="https://github.com/robflaherty/jquery-scrolldepth" target="_blank" class="button">View on Github</a>
+<p class="buttons">
+  <a href="https://raw.github.com/robflaherty/riveted/master/riveted.js" target="_blank" class="button button-download">Download (1.8 kb)</a>
+  <a href="https://github.com/robflaherty/riveted" target="_blank" class="button">View on Github</a>
 </p>
+
+
+<h2>Details</h2>
+ <p>The plugin listens for mouse movements, clicks, scrolling, and keyboard activity to define an active user. It also checks whether the tab is currently visible.</p>
+
+ <p>Every 5 seconds it check if the user is active and pings Google Analytics. If the user goes 30 seconds without registering an action the user is considered idle.</p>
 
 <h2>Using it</h2>
 
-<!-- <img src="img/google-analytics-scroll-depth.png" alt="Google Analytics Scroll Depth Tracking" style="border: 1px solid #E5E5E5; margin:0 0 20px; display: block;" class="img2" /> -->
-
-<p>The two requirements are Google Analytics and <a href="http://jquery.com/" target="_blank">jQuery</a>. After loading the plugin you'll need to initalize it as in the example below. Make sure to place this after your Google Analytics tracking snippet.</p>
-
-<pre><code class="language-javascript">&lt;script src="jquery-1.10.2.min.js"&gt;&lt;/script&gt;
-&lt;script src="jquery.scrolldepth.js"&gt;&lt;/script&gt;
-&lt;script&gt;
-$(function() {
-  $.scrollDepth();
-});
-&lt;/script&gt;</code>
+<pre><code class="language-javascript">&lt;script src="riveted.js"&gt;&lt;/script&gt;
+&lt;script&gt;riveted.init();&lt;/script&gt;</code>
 </pre>
 
 <h2>Plugin options</h2>
 
-<h3>minHeight</h3>
-<p>This lets you enable scroll tracking based on a minimum document height. "Only track scroll events for documents taller than 2000px." The default setting is 0 (all pages are tracked).</p>
+<h3>reportInterval</h3>
+<p>This number, in seconds, determines both the increment of reporting and the frequency of pinging. The default is 5 seconds.</p>
 
-<h3>elements</h3>
-<p>This lets you record scroll events for specific elements on the page. "Track when the footer is scrolled into view." You can specify multiple elements but each should be a <em>unique element</em>. In other words you should specify IDs or singular HTML elements, not classes with multiple instances. The default setting is an empty array: [].</p>
+<h3>idleTimeout</h3>
+<p>This number determines how long a user can go without triggering an event before we consider them inactive. The deafult is 30 seconds.</p>
 
-<h3>percentage</h3>
-<p>If you want to turn off the default scroll percentage tracking and only track certain DOM elements, set this to false. The default setting is true.</p>  
+<h3>nonInteraction</h3>
+<p>By default, GA Events are sent with the Non-interaction option set to true. This keeps the event from impacting the bounce rate and visit duration. <strong>Caution</strong>: If you set this to false, the bounce rate will drop to near zero and the visit duration will leap. Make sure you know what you're doing before using this option.</p>
 
 <pre><code class="language-javascript">// Example with options
-$.scrollDepth({
-  minHeight: 2000,
-  elements: ['#comments', 'footer']
-  percentage: false
+riveted.init({
+  reportInterval: 10,   // Default: 5
+  idleTimeout: 20,      // Default: 30
+  nonInteraction: false // Default: true
 });</code></pre>
+
+<h2>Methods</h2>
+<h3>rivited.trigger()</h3>
+<p>Calling this method restarts the Idle timer. One use for this would be to keep the Riveted timer running while the user watches a video.</p>
+
+<h3>riveted.setIdle()</h3>
+<p>This method stops the timer and sets the user to the Idle state.</p>
 
 <h2>Google Tag Manager</h2>
 <p>If you want to integrate with Google Tag Manager, here are the dataLayer variable names:</p>
@@ -88,16 +92,28 @@ $.scrollDepth({
 </ul>
 <h2>Browser Support</h2>
 
-<p>Tested in the latest versions of Chrome, Firefox, Safari, and Opera. Also works in IE 7-10. Also tested on iOS, Opera Mobile, and a few Android emulators.</p>
-
-<h2>Contact</h2>
-<p>If you have any questions you can find me on Twitter at <a href="https://twitter.com/robflaherty" target="_blank">@robflaherty</a>.</p>
-
-<h2>License</h2>
-
-<p style="margin: 0;">Licensed under the MIT license.</p>  
+<p>Tested in latest versions of Chrome, Firefox, Safari, and Opera. Internet Explorer 8-11. iOS and Android.</p>
 </div>
 </div>
+<div id="bottom">
+<div class="inner">
+
+  <h2>Contact</h2>
+  <p>If you have any questions you can find me on Twitter:</p>
+
+
+  <p>
+    <a href="https://twitter.com/robflaherty" target="_blank" class="button button-twitter">@robflaherty</a>
+  </p>
+
+
+  <h2>License</h2>
+
+  <p style="margin: 0;">Licensed under the MIT license.</p>  
+
+</div>
+</div>
+
 <script src="js/prism.js"></script>  
 </body>
 </html>
