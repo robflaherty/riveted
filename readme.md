@@ -3,8 +3,6 @@ Riveted is a Google Analytics plugin that tracks how much time users spend activ
 
 The plugin has no dependencies and supports Universal Analytics, Classic Google Analytics, and Google Tag Manager.
 
-[View the Project Page](http://parsnip.io/scroll-depth/)
-
 ## Usage
 ```javascript
 // Basic

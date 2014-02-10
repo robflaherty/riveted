@@ -1,4 +1,5 @@
 /*!
+ * @preserve
  * riveted.js | v0.1
  * Copyright (c) 2014 Rob Flaherty (@robflaherty)
  * Licensed under the MIT license
@@ -12,7 +13,6 @@ var riveted = (function() {
       startTime = new Date(),
       clockTimer = null,
       idleTimer = null,
-      options,
       reportInterval,
       idleTimeout,
       nonInteraction;
