@@ -5,6 +5,8 @@ It has no dependencies and supports Universal Analytics, Classic Google Analytic
 
 This plugin is still in beta.
 
+More information on the [project page](http://projects.parsnip.io/riveted/).
+
 ## Usage
 ```javascript
 // Basic
