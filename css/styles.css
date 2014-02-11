@@ -139,6 +139,9 @@ a:hover {
   margin: 0 20px 0 0;
   background: #c02a2a; }
 
+.button-twitter {
+  margin: 0 20px 0 0; }
+
 .button:hover {
   background: #962121; }
 
@@ -147,6 +150,12 @@ a:hover {
   padding: 30px 0; }
   #bottom p {
     text-align: center; }
+
+#end {
+  background: #09172f;
+  padding: 10px 0;
+  text-align: center;
+  font-size: 16px; }
 
 /* Hide the scroll marks on smaller screens */
 @media only screen and (max-width: 549px) {

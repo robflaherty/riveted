@@ -93,6 +93,8 @@ a:hover { text-decoration: none; }
 .button-download { margin: 0 20px 0 0;   background: darken(#D23131, 5);
  }
 
+.button-twitter { margin: 0 20px 0 0; }
+
 .button:hover { 
   background: darken(#D23131, 15);
 }
@@ -105,6 +107,8 @@ a:hover { text-decoration: none; }
     text-align: center;
   }
 }
+
+#end { background: darken(rgb(22,53,111), 15); padding: 10px 0; text-align: center; font-size: 16px; }
 
 /* Hide the scroll marks on smaller screens */
 @media only screen and (max-width:549px) {
