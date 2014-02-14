@@ -5,7 +5,10 @@ It has no dependencies and supports Universal Analytics, Classic Google Analytic
 
 This plugin is still in beta.
 
-More information on the [project page](http://projects.parsnip.io/riveted/).
+Implementation information on the [project page](http://projects.parsnip.io/riveted/).
+
+There's also a [blog post](http://parsnip.io/blog/riveted-measuring-active-time-in-google-analytics/).
+
 
 ## Usage
 ```javascript
@@ -40,4 +43,5 @@ Tested in latest versions of Chrome, Firefox, Safari, and Opera. Internet Explor
 If you have any questions you can find me on Twitter at [@robflaherty](https://twitter.com/robflaherty).
 
 ## Changelog
+0.2 (2/13/14): Fixed GTM double firing.
 0.1 (2/9/14): Initial release.

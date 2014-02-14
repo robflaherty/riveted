@@ -1,6 +1,6 @@
 /*!
  * @preserve
- * riveted.js | v0.1
+ * riveted.js | v0.2
  * Copyright (c) 2014 Rob Flaherty (@robflaherty)
  * Licensed under the MIT license
  */
@@ -94,16 +94,20 @@ var riveted = (function() {
 
     function sendUserTiming(timingValue) {
 
-      if (typeof(ga) !== "undefined") {
-        ga('send', 'timing', 'Riveted', 'First Interaction', timingValue);
-      }
-
-      if (typeof(_gaq) !== "undefined") {
-        _gaq.push(['_trackTiming', 'Riveted', 'First Interaction', timingValue, null, 100]);
-      }
-
       if (typeof(dataLayer) !== "undefined") {
+
         dataLayer.push({'event':'RivetedTiming', 'eventCategory':'Riveted', 'timingVar': 'First Interaction', 'timingValue': timingValue});
+
+      } else {
+
+        if (typeof(ga) !== "undefined") {
+          ga('send', 'timing', 'Riveted', 'First Interaction', timingValue);
+        }
+
+        if (typeof(_gaq) !== "undefined") {
+          _gaq.push(['_trackTiming', 'Riveted', 'First Interaction', timingValue, null, 100]);
+        }
+
       }
 
     }
@@ -114,16 +118,20 @@ var riveted = (function() {
 
     function sendEvent(time) {
 
-      if (typeof(ga) !== "undefined") {
-        ga('send', 'event', 'Riveted', 'Time Spent', time.toString(), reportInterval, {'nonInteraction': nonInteraction});
-      }
-
-      if (typeof(_gaq) !== "undefined") {
-        _gaq.push(['_trackEvent', 'Riveted', 'Time Spent', time.toString(), reportInterval, nonInteraction]);
-      }
-
       if (typeof(dataLayer) !== "undefined") {
+
         dataLayer.push({'event':'Riveted', 'eventCategory':'Riveted', 'eventAction': 'Time Spent', 'eventLabel': 'Seconds', 'eventValue': time, 'eventNonInteraction': nonInteraction});
+
+      } else {
+
+        if (typeof(ga) !== "undefined") {
+          ga('send', 'event', 'Riveted', 'Time Spent', time.toString(), reportInterval, {'nonInteraction': nonInteraction});
+        }
+
+        if (typeof(_gaq) !== "undefined") {
+          _gaq.push(['_trackEvent', 'Riveted', 'Time Spent', time.toString(), reportInterval, nonInteraction]);
+        }
+
       }
 
     }
