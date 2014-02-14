@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Riveted Test</title>
+  <script>
+  var _gaq = {};
+  _gaq.push = function(data) {
+    console.log("_gaq.push(" + data + ");");
+  };
+  </script>
+  <script src="../riveted.min.js"></script>
+  <script>
+    riveted.init({
+      reportInterval: 2,
+      idleTimeout: 5,
+      nonInteraction: false
+    });
+  </script>
+</head>
+<body>
+  <h1>Test</h1>
+</body>
+</html>

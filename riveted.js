@@ -1,6 +1,6 @@
 /*!
  * @preserve
- * riveted.js | v0.2
+ * riveted.js | v0.2.1
  * Copyright (c) 2014 Rob Flaherty (@robflaherty)
  * Licensed under the MIT license
  */
@@ -23,7 +23,12 @@ var riveted = (function() {
       options = options || {};
       reportInterval = parseInt(options.reportInterval, 10) || 5;
       idleTimeout = parseInt(options.idleTimeout, 10) || 30;
-      nonInteraction = options.nonInteraction || true;
+
+      if ('nonInteraction' in options) {
+        nonInteraction = options.nonInteraction;
+      } else {
+        nonInteraction = true;
+      }
 
       // Basic activity event listeners
       addListener(document, 'keydown', trigger);
