@@ -22,7 +22,9 @@ var riveted = (function() {
 
     /*
      * Determine which version of GA is being used
+     * "ga", "_gaq", and "dataLayer" are the possible globals
      */
+
     if (typeof ga === "function") {
       universalGA = true;
     }
