@@ -7,6 +7,21 @@
   _gaq.push = function(data) {
     console.log("_gaq.push(" + data + ");");
   };
+
+  var dataLayer = {};
+  dataLayer.push = function(data) {
+    console.log("dataLayer.push(" + JSON.stringify(data) + ");");
+  };
+
+  var ga = function(params) {
+    var args = Array.prototype.slice.call(arguments, 1);
+    console.log("ga(" + args.join(',') + ");");
+  };
+
+  _gaq = undefined;
+  dataLayer = undefined;
+  //ga = undefined;
+
   </script>
   <script src="../riveted.js"></script>
   <script>
