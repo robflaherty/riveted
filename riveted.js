@@ -15,7 +15,25 @@ var riveted = (function() {
       idleTimer = null,
       reportInterval,
       idleTimeout,
-      nonInteraction;
+      nonInteraction,
+      universalGA,
+      classicGA,
+      googleTagManager;
+
+    /*
+     * Determine which version of GA is being used
+     */
+    if (typeof ga === "function") {
+      universalGA = true;
+    }
+
+    if (typeof _gaq !== "undefined" && typeof _gaq.push === "function") {
+      classicGA = true;
+    }
+
+    if (typeof dataLayer !== "undefined" && typeof dataLayer.push === "function") {
+      googleTagManager = true;
+    }
 
     function init(options) {
 
@@ -99,17 +117,17 @@ var riveted = (function() {
 
     function sendUserTiming(timingValue) {
 
-      if (typeof(dataLayer) !== "undefined") {
+      if (googleTagManager) {
 
         dataLayer.push({'event':'RivetedTiming', 'eventCategory':'Riveted', 'timingVar': 'First Interaction', 'timingValue': timingValue});
 
       } else {
 
-        if (typeof(ga) !== "undefined") {
+        if (universalGA) {
           ga('send', 'timing', 'Riveted', 'First Interaction', timingValue);
         }
 
-        if (typeof(_gaq) !== "undefined") {
+        if (classicGA) {
           _gaq.push(['_trackTiming', 'Riveted', 'First Interaction', timingValue, null, 100]);
         }
 
@@ -123,17 +141,17 @@ var riveted = (function() {
 
     function sendEvent(time) {
 
-      if (typeof(dataLayer) !== "undefined") {
+      if (googleTagManager) {
 
         dataLayer.push({'event':'Riveted', 'eventCategory':'Riveted', 'eventAction': 'Time Spent', 'eventLabel': 'Seconds', 'eventValue': time, 'eventNonInteraction': nonInteraction});
 
       } else {
 
-        if (typeof(ga) !== "undefined") {
+        if (universalGA) {
           ga('send', 'event', 'Riveted', 'Time Spent', time.toString(), reportInterval, {'nonInteraction': nonInteraction});
         }
 
-        if (typeof(_gaq) !== "undefined") {
+        if (classicGA) {
           _gaq.push(['_trackEvent', 'Riveted', 'Time Spent', time.toString(), reportInterval, nonInteraction]);
         }
 
@@ -206,6 +224,6 @@ var riveted = (function() {
       init: init,
       trigger: trigger,
       setIdle: setIdle,
-    }
+    };
 
   })();
