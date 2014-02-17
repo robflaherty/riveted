@@ -9,86 +9,66 @@
  * License: MIT
  */
 
-/* Puts code on Wordpress pages */
-//add_action('wp_footer', 'crazyegg_tracking_code');
-
-/* Runs when plugin is activated */
-register_activation_hook(__FILE__, 'riveted_install');
-
-/* Runs on plugin deactivation*/
-register_deactivation_hook(__FILE__, 'riveted_remove' );
-
-function riveted_install() {
-  /* Creates new database field */
-  add_option("riveted_report_interval", '', '', 'yes');
-  add_option("riveted_idle_timeout", '', '', 'yes');
-  add_option("riveted_noninteraction", '', '', 'yes');
-}
-
-function riveted_remove() {
-  /* Deletes the database field */
-  delete_option("riveted_report_interval");
-  delete_option("riveted_idle_timeout");
-  delete_option("riveted_noninteraction");
-}
+/*
+ * Admin Settings Menu
+ */
 
 if (is_admin()) {
-  /* Call the html code */
+
   add_action('admin_menu', 'riveted_admin');
+  add_action( 'admin_init', 'riveted_admin_init' );
 
   function riveted_admin() {
     add_options_page('Riveted', 'Riveted', 'administrator', 'riveted', 'riveted_admin_html');
   }
+
+  function riveted_admin_init() {
+    add_settings_section( 'riveted-main', 'Main Settings', 'main_callback', 'riveted' );
+
+    add_settings_field( 'riveted_report_interval', 'Report Interval', 'riveted_report_callback', 'riveted', 'riveted-main' );
+    add_settings_field( 'riveted_idle_timeout', 'Idle Timeout', 'riveted_idle_callback', 'riveted', 'riveted-main' );
+    add_settings_field( 'riveted_noninteraction', 'Non-Interaction', 'riveted_noninteraction_callback', 'riveted', 'riveted-main' );
+
+    register_setting( 'riveted-settings-group', 'riveted_report_interval' );
+    register_setting( 'riveted-settings-group', 'riveted_idle_timeout' );
+    register_setting( 'riveted-settings-group', 'riveted_noninteraction' );
+  }
+
+  function main_callback() {
+    echo '<p>Visit the <a href="http://projects.parsnip.io/riveted/" target="_blank">Riveted site</a> for more information about the options.</p><p>If you have page caching enabled you\'ll probably need to clear the cache after making changes to these settings.</p>';
+  }
+
+  function riveted_report_callback() {
+    $setting = esc_attr( get_option( 'riveted_report_interval' ) );
+    echo "<input type='text' name='riveted_report_interval' value='$setting' /> (Default is 5)";
+  }
+
+  function riveted_idle_callback() {
+    $setting = esc_attr( get_option( 'riveted_idle_timeout' ) );
+    echo "<input type='text' name='riveted_idle_timeout' value='$setting' /> (Default is 30)";
+  }
+
+  function riveted_noninteraction_callback() {
+    $setting = esc_attr( get_option( 'riveted_noninteraction' ) );
+    echo "<input type='text' name='riveted_noninteraction' value='$setting' /> (Default is true)";
+  }
+
+  function riveted_admin_html() { ?>
+    <div class="wrap">
+      <h2>Riveted Options</h2>
+      <form action="options.php" method="POST">
+        <?php settings_fields( 'riveted-settings-group' ); ?>
+        <?php do_settings_sections( 'riveted' ); ?>
+        <?php submit_button(); ?>
+      </form>
+    </div>
+
+  <?php }
 }
 
-
-
-function riveted_admin_html() { ?>
-<div class="wrap">
-  <div id="icon-plugins" class="icon32"></div>
-  <h2>Riveted</h2>
-  <form method="POST" action="options.php">
-    <?php wp_nonce_field('update-options'); ?>
-    <table class="form-table">
-      <tr valign="top">
-        <th scope="row">
-          <label for="">Report Interval</label>
-        </th>
-        <td>
-          <input id="rivete_report_interval" name="riveted_report_interval" value="<?php echo get_option('riveted_report_interval'); ?>" class="regular-text" />
-          <span class="description">(Default is 10)</span>
-        </td>
-      </tr>
-      <tr valign="top">
-        <th scope="row">
-          <label for="">Idle Timeout</label>
-        </th>
-        <td>
-          <input id="riveted_idle_timeout" name="riveted_idle_timeout" value="<?php echo get_option('riveted_idle_timeout'); ?>" class="regular-text" />
-          <span class="description">(Default is 30)</span>
-        </td>
-      </tr>
-      <tr valign="top">
-        <th scope="row">
-          <label for="">Non-Interaction</label>
-        </th>
-        <td>
-          <input id="riveted_noninteraction" name="riveted_noninteraction" value="<?php echo get_option('riveted_noninteraction'); ?>" class="regular-text" />
-          <span class="description">(Default is True)</span>
-        </td>
-      </tr>
-    </table>
-    <p>Riveted settings</p>
-    <input type="hidden" name="action" value="update" />
-    <input type="hidden" name="page_options" value="riveted_report_interval,riveted_idle_timeout,riveted_noninteraction" />
-
-    <p class="submit">
-      <input class="button-primary" type="submit" name="Save" value="<?php _e('Save'); ?>" />
-    </p>
-  </form>
-</div>
-<?php }
-
+/*
+ * Load Riveted onto the page
+ */
 
 function load_riveted() {
   $report_interval = get_option("riveted_report_interval");
@@ -110,15 +90,7 @@ function load_riveted() {
   //print_r($options);
 
   wp_enqueue_script( 'riveted', plugins_url() . '/riveted/js/riveted.min.js', array(), '0.3', true );
-  wp_localize_script( 'riveted', 'riveted_options',
-    /*array(
-      'reportInterval' => REPORT_INTERVAL,
-      'idleTimeout' => IDLE_TIMEOUT,
-      'nonInteraction' => NON_INTERACTION
-    )
-    */
-    $options
-  );
+  wp_localize_script( 'riveted', 'riveted_options', $options );
 }
 
 add_action('wp_enqueue_scripts', 'load_riveted');
