@@ -5,7 +5,7 @@ It has no dependencies and supports Universal Analytics, Classic Google Analytic
 
 Implementation information is on the [project page](http://projects.parsnip.io/riveted/). This plugin is still in beta.
 
-There's also a [blog post](http://parsnip.io/blog/riveted-measuring-active-time-in-google-analytics/).
+Background and more details can be found in this [blog post](http://parsnip.io/blog/riveted-measuring-active-time-in-google-analytics/).
 
 
 ## Usage
@@ -22,7 +22,7 @@ riveted.init({
 ```
 
 ## WordPress Plugin
-You can install Riveted as a WordPress plugin.
+Riveted is also available as a WordPress plugin. (The plugin has been submitted to the WordPress.org directory and is currently awaiting review.)
 
 1. Upload the `wp-plugin/riveted` directory into the `/wp-content/plugins/` directory on your server.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
