@@ -44,8 +44,8 @@ var riveted = (function() {
       reportInterval = parseInt(options.reportInterval, 10) || 5;
       idleTimeout = parseInt(options.idleTimeout, 10) || 30;
 
-      if ('nonInteraction' in options) {
-        nonInteraction = !!options.nonInteraction;
+      if ('nonInteraction' in options && (options.nonInteraction === false || options.nonInteraction === 'false')) {
+        nonInteraction = false;
       } else {
         nonInteraction = true;
       }
