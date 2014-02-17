@@ -1,0 +1,1 @@
+riveted.init(riveted_options);
