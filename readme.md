@@ -22,7 +22,11 @@ riveted.init({
 ```
 
 ## WordPress Plugin
-You can install Riveted as a WordPress plugin
+You can install Riveted as a WordPress plugin.
+
+1. Upload the `wp-plugin/riveted` directory into the `/wp-content/plugins/` directory on your server.
+2. Activate the plugin through the 'Plugins' menu in WordPress.
+3. If you'd like to modify the default settings, go to the Riveted panel under Settings.
 
 ## Google Tag Manager
 If you'd like to integrate with Google Tag Manager, here are the dataLayer variable names:
