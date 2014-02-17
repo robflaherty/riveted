@@ -3,9 +3,7 @@ Riveted is a Google Analytics plugin that tracks how much time users spend activ
 
 It has no dependencies and supports Universal Analytics, Classic Google Analytics, and Google Tag Manager.
 
-This plugin is still in beta.
-
-Implementation information on the [project page](http://projects.parsnip.io/riveted/).
+Implementation information is on the [project page](http://projects.parsnip.io/riveted/). This plugin is still in beta.
 
 There's also a [blog post](http://parsnip.io/blog/riveted-measuring-active-time-in-google-analytics/).
 
@@ -22,6 +20,9 @@ riveted.init({
   nonInteraction: false
 });
 ```
+
+## WordPress Plugin
+You can install Riveted as a WordPress plugin
 
 ## Google Tag Manager
 If you'd like to integrate with Google Tag Manager, here are the dataLayer variable names:
@@ -43,6 +44,9 @@ Tested in latest versions of Chrome, Firefox, Safari, and Opera. Internet Explor
 If you have any questions you can find me on Twitter at [@robflaherty](https://twitter.com/robflaherty).
 
 ## Changelog
+
+0.3 (2/17/14): Added WordPress plugin.
+
 0.2.1 (2/13/14): Fixed Non-Interaction option.
 
 0.2 (2/13/14): Fixed GTM double firing.

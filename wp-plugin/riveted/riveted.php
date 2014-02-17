@@ -3,7 +3,7 @@
  * Plugin Name: Riveted
  * Plugin URI: http://projects.parsnip.io/riveted/
  * Description: A Google Analytics plugin for measuring active time
- * Version: 0.3
+ * Version: 1.0
  * Author: Rob Flaherty
  * Author URI: http://parsnip.io
  * License: MIT
