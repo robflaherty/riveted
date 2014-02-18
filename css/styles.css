@@ -145,6 +145,9 @@ a:hover {
 .button:hover {
   background: #962121; }
 
+.github {
+  text-align: center; }
+
 #bottom {
   background: #0e2144;
   padding: 30px 0; }
