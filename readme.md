@@ -22,7 +22,7 @@ riveted.init({
 ```
 
 ## WordPress Plugin
-Riveted is also available as a WordPress plugin. (The plugin has been submitted to the WordPress.org directory and is currently awaiting review.)
+Riveted is also available as a [WordPress plugin](http://wordpress.org/plugins/riveted/).
 
 1. Upload the `wp-plugin/riveted` directory into the `/wp-content/plugins/` directory on your server.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
