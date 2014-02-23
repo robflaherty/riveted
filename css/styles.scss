@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 @-webkit-keyframes myanim {
   0%   { opacity: 1.0; }
   50%  { opacity: 0.7; }
@@ -112,7 +114,7 @@ a:hover { text-decoration: none; }
   }
 }
 
-#end { background: darken(rgb(22,53,111), 15); padding: 10px 0; text-align: center; font-size: 16px; }
+#pre { background: darken(rgb(22,53,111), 10); padding: 10px 0; text-align: center; font-size: 16px; }
 
 /* Hide the scroll marks on smaller screens */
 @media only screen and (max-width:549px) {

@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @-webkit-keyframes myanim {
   0% {
     opacity: 1.0; }
@@ -154,8 +155,8 @@ a:hover {
   #bottom p {
     text-align: center; }
 
-#end {
-  background: #09172f;
+#pre {
+  background: #0e2144;
   padding: 10px 0;
   text-align: center;
   font-size: 16px; }
