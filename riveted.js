@@ -57,8 +57,8 @@ var riveted = (function() {
       addListener(window, 'scroll', throttle(trigger, 500));
 
       // Page visibility listeners
-      document.addEventListener('visibilitychange', visibilityChange, false);
-      document.addEventListener('webkitvisibilitychange', visibilityChange, false);
+      addListener(document, 'visibilitychange', visibilityChange);
+      addListener(document, 'webkitvisibilitychange', visibilityChange);
     }
 
 
@@ -225,7 +225,7 @@ var riveted = (function() {
     return {
       init: init,
       trigger: trigger,
-      setIdle: setIdle,
+      setIdle: setIdle
     };
 
   })();
