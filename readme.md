@@ -49,6 +49,8 @@ If you have any questions you can find me on Twitter at [@robflaherty](https://t
 
 ## Changelog
 
+0.3.1 (6/4/14): Fixed IE8 bug.
+
 0.3 (2/17/14): Added WordPress plugin.
 
 0.2.1 (2/13/14): Fixed Non-Interaction option.
