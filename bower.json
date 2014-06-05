@@ -1,0 +1,23 @@
+{
+  "name": "riveted",
+  "main": "riveted.js",
+  "version": "0.3.1",
+  "homepage": "http://riveted.parsnip.io/",
+  "authors": [
+    "Rob Flaherty"
+  ],
+  "description": "Google Analytics plugin to track active/engaged time on page.",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "analytics",
+    "google-analytics",
+    "tracking"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "test",
+    "build.sh"
+  ]
+}
