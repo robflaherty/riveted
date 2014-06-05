@@ -13,6 +13,7 @@ var riveted = (function() {
       startTime = new Date(),
       clockTimer = null,
       idleTimer = null,
+      sendEvent,
       reportInterval,
       idleTimeout,
       nonInteraction,
@@ -43,6 +44,7 @@ var riveted = (function() {
       options = options || {};
       reportInterval = parseInt(options.reportInterval, 10) || 5;
       idleTimeout = parseInt(options.idleTimeout, 10) || 30;
+      typeof options.eventHandler == 'function' && (sendEvent = options.eventHandler);
 
       if ('nonInteraction' in options && (options.nonInteraction === false || options.nonInteraction === 'false')) {
         nonInteraction = false;
@@ -141,7 +143,7 @@ var riveted = (function() {
      * Function for logging ping events
      */
 
-    function sendEvent(time) {
+    sendEvent = function (time) {
 
       if (googleTagManager) {
 
@@ -159,7 +161,7 @@ var riveted = (function() {
 
       }
 
-    }
+    };
 
     function setIdle() {
       clearTimeout(idleTimer);
