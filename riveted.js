@@ -145,7 +145,7 @@ var riveted = (function() {
 
       }
 
-    }
+    };
 
     /*
      * Function for logging ping events
