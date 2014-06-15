@@ -14,6 +14,7 @@ var riveted = (function() {
       clockTimer = null,
       idleTimer = null,
       sendEvent,
+      sendUserTiming,
       reportInterval,
       idleTimeout,
       nonInteraction,
@@ -44,7 +45,14 @@ var riveted = (function() {
       options = options || {};
       reportInterval = parseInt(options.reportInterval, 10) || 5;
       idleTimeout = parseInt(options.idleTimeout, 10) || 30;
-      typeof options.eventHandler == 'function' && (sendEvent = options.eventHandler);
+
+      if (typeof options.eventHandler == 'function') {
+          sendEvent = options.eventHandler;
+      }
+
+      if (typeof options.userTimingHandler == 'function') {
+          sendUserTiming = options.userTimingHandler;
+      }
 
       if ('nonInteraction' in options && (options.nonInteraction === false || options.nonInteraction === 'false')) {
         nonInteraction = false;
@@ -119,7 +127,7 @@ var riveted = (function() {
      * Function for logging User Timing event on initial interaction
      */
 
-    function sendUserTiming(timingValue) {
+    sendUserTiming = function (timingValue) {
 
       if (googleTagManager) {
 
