@@ -9,6 +9,7 @@ var riveted = (function() {
 
     var started = false,
       stopped = false,
+      turnedOff = false,
       clockTime = 0,
       startTime = new Date(),
       clockTimer = null,
@@ -185,6 +186,15 @@ var riveted = (function() {
       clearTimeout(clockTimer);
     }
 
+    function turnOff() {
+      setIdle();
+      turnedOff = true;
+    }
+
+    function turnOn() {
+      turnedOff = false;
+    }
+
     function restartClock() {
       stopped = false;
       clearTimeout(clockTimer);
@@ -210,6 +220,10 @@ var riveted = (function() {
 
     function trigger() {
 
+      if (turnedOff) {
+        return;
+      }
+
       if (!started) {
         startRiveted();
       }
@@ -225,7 +239,9 @@ var riveted = (function() {
     return {
       init: init,
       trigger: trigger,
-      setIdle: setIdle
+      setIdle: setIdle,
+      turnOff: turnOff,
+      turnOn: turnOn
     };
 
   })();
