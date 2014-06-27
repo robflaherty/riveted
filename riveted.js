@@ -1,6 +1,6 @@
 /*!
  * @preserve
- * riveted.js | v0.3.1
+ * riveted.js | v0.3.2
  * Copyright (c) 2014 Rob Flaherty (@robflaherty)
  * Licensed under the MIT license
  */
@@ -23,24 +23,24 @@ var riveted = (function() {
       classicGA,
       googleTagManager;
 
-    /*
-     * Determine which version of GA is being used
-     * "ga", "_gaq", and "dataLayer" are the possible globals
-     */
-
-    if (typeof ga === "function") {
-      universalGA = true;
-    }
-
-    if (typeof _gaq !== "undefined" && typeof _gaq.push === "function") {
-      classicGA = true;
-    }
-
-    if (typeof dataLayer !== "undefined" && typeof dataLayer.push === "function") {
-      googleTagManager = true;
-    }
-
     function init(options) {
+
+      /*
+       * Determine which version of GA is being used
+       * "ga", "_gaq", and "dataLayer" are the possible globals
+       */
+
+      if (typeof ga === "function") {
+        universalGA = true;
+      }
+
+      if (typeof _gaq !== "undefined" && typeof _gaq.push === "function") {
+        classicGA = true;
+      }
+
+      if (typeof dataLayer !== "undefined" && typeof dataLayer.push === "function") {
+        googleTagManager = true;
+      }
 
       // Set up options and defaults
       options = options || {};
@@ -156,7 +156,7 @@ var riveted = (function() {
 
       if (googleTagManager) {
 
-        dataLayer.push({'event':'Riveted', 'eventCategory':'Riveted', 'eventAction': 'Time Spent', 'eventLabel': 'Seconds', 'eventValue': time, 'eventNonInteraction': nonInteraction});
+        dataLayer.push({'event':'Riveted', 'eventCategory':'Riveted', 'eventAction': 'Time Spent', 'eventLabel': time, 'eventValue': reportInterval, 'eventNonInteraction': nonInteraction});
 
       } else {
 
