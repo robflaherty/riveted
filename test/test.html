@@ -23,12 +23,18 @@
   //ga = undefined;
 
   </script>
-  <script src="../riveted.js"></script>
+  <script src="../riveted.min.js"></script>
   <script>
     riveted.init({
       reportInterval: 2,
       idleTimeout: 5,
-      nonInteraction: false
+      nonInteraction: false,
+      eventHandler: function(event) {
+        console.log(event);
+      },
+      userTimingHandler: function(event) {
+        console.log(event);
+      }
     });
   </script>
 </head>
