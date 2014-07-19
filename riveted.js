@@ -1,6 +1,6 @@
 /*!
  * @preserve
- * riveted.js | v0.3.2
+ * riveted.js | v0.4.0
  * Copyright (c) 2014 Rob Flaherty (@robflaherty)
  * Licensed under the MIT license
  */
@@ -250,8 +250,8 @@ var riveted = (function() {
       init: init,
       trigger: trigger,
       setIdle: setIdle,
-      turnOff: turnOff,
-      turnOn: turnOn
+      on: turnOn,
+      off: turnOff
     };
 
   })();
