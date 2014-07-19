@@ -38,7 +38,7 @@
   <p>Riveted helps fix this by measuring the amount of time users are actively engaged (e.g., clicking, scrolling, using the keyboard) and then reporting the data to Google Analytics in frequent intervals.
   </p>
 
-  <p>It supports Universal Analytics, Classic Google Analytics, and Google Tag Manager. It has no other dependencies.</p>
+  <p>It supports Universal Analytics, Classic Google Analytics, and Google Tag Manager. It can also be used with any analytics tool that supports events, e.g. Mixpanel or Keen.io.</p>
 
 <p class="buttons">
   <a href="https://raw2.github.com/robflaherty/riveted/master/riveted.min.js" target="_blank" class="button button-download">Download the JS (2 kb)</a>
@@ -55,11 +55,13 @@
 
   <p>The first interaction also triggers a User Timing Event, which allows you to measure the number of milliseconds from the pageload to the user's first action.</p>
 
+  <p>Here's a blog post with tips on <a href="https://medium.com/google-analytics/84d9981920da">how to use the data Riveted collects</a>.</p>
+
   <p>Depending on your volume of traffic you may need to increase the reporting interval (see Google's <a href="https://developers.google.com/analytics/devguides/collection/gajs/limits-quotas" target="_blank">collection quotas</a>).</p>
 
-  <p>For more background on this project, <a href="http://parsnip.io/blog/riveted-measuring-active-time-in-google-analytics/" target="_blank">check out this blog post</a>.</p>
-
 <h2>Using it</h2>
+
+<p>After your Google Analytics tracking code, load the script and call the riveted.init() function, like this:</p>
 
 <pre><code class="language-javascript">&lt;script src="riveted.min.js"&gt;&lt;/script&gt;
 &lt;script&gt;riveted.init();&lt;/script&gt;</code>
@@ -74,7 +76,7 @@
 <p>This number determines how long a user can go without triggering an event before we consider them inactive. The default is 30 seconds.</p>
 
 <h3>nonInteraction</h3>
-<p>By default, GA Events are sent with the Non-interaction option set to true. This keeps the event from impacting the bounce rate and visit duration. <strong>Caution</strong>: If you set this to false, the bounce rate will drop to near zero and the visit duration will leap. Make sure you know what you're doing before using this option.</p>
+<p>By default, GA Events are sent with the Non-interaction option set to true. This keeps the event from impacting the bounce rate and visit duration. <strong>Caution</strong>: If you set this to false, the bounce rate will drop to near zero and the visit duration may leap. Make sure you know what you're doing before using this option.</p>
 
 <pre><code class="language-javascript">// Example with options
 riveted.init({
@@ -83,13 +85,36 @@ riveted.init({
   nonInteraction: true  // Default: true
 });</code></pre>
 
+<h2>Non-Google Analytics Use</h2>
+<p>With a simple callback you can use Riveted with any analytics service that supports events.</p>
+
+<h3>eventHandler</h3>
+<p>The eventHandler callback receives one argument, which is the current tally of engaged time, in seconds. This fires at whatever interval is specified in the reportInterval option. Note: this option is not yet available in the WordPress plugin.</p>
+
+<pre><code class="language-javascript">// Example using Keen.io
+riveted.init({
+  eventHandler: function(data) {
+    Keen.addEvent("Riveted", data);
+  }
+});</code></pre>
+
+<h3>userTimingHandler</h3>
+<p>There's also a custom event handler for the timing event. This fires only once and records the length of time (in milliseconds) from the initial page load to the first activity event.</p>
+
 <h2>Methods</h2>
-<p>There are two available methods for manually interacting with the Riveted timer.</p>
+<p>There are a few methods for manually interacting with the Riveted timer.</p>
+
 <h3>riveted.trigger()</h3>
 <p>Calling this method restarts the Idle timer. One use for this would be to keep the Riveted timer running while the user watches a video.</p>
 
 <h3>riveted.setIdle()</h3>
-<p>This method stops the timer and sets the user to the Idle state.</p>
+<p>This method stops the timer and sets the user to the Idle state. Any user action will reactivate it.</p>
+
+<h3>riveted.off()</h3>
+<p>This method completely turns the plugin off.</p>
+
+<h3>riveted.on()</h3>
+<p>If you've turned off the plugin with the riveted.off() method, this method will turn it back on.</p>
 
 <h2>Google Tag Manager</h2>
 <p>If you want to integrate with Google Tag Manager, here are the dataLayer variable names:</p>
