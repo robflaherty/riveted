@@ -5,7 +5,7 @@
  * Licensed under the MIT license
  */
 
-var riveted = (function() {
+module.exports = (function() {
 
     var started = false,
       stopped = false,
