@@ -1,0 +1,25 @@
+{
+  "name": "riveted-node",
+  "version": "0.0.0",
+  "description": "(requireable) Google Analytics plugin to track active/engaged time on page ",
+  "main": "riveted.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tamarasaurus/riveted.git"
+  },
+  "keywords": [
+    "riveted"
+  ],
+  "author": "Rob Flaherty",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tamarasaurus/riveted/issues"
+  },
+  "homepage": "https://github.com/tamarasaurus/riveted"
+}
