@@ -21,6 +21,7 @@ var riveted = (function() {
       nonInteraction,
       universalGA,
       classicGA,
+      universalGATrackerName,
       googleTagManager;
 
     function init(options) {
@@ -46,11 +47,12 @@ var riveted = (function() {
       options = options || {};
       reportInterval = parseInt(options.reportInterval, 10) || 5;
       idleTimeout = parseInt(options.idleTimeout, 10) || 30;
-
+      if('tracker' in options && typeof options.tracker === 'string'){
+          universalGATrackerName = options.tracker;
+      }
       if (typeof options.eventHandler == 'function') {
           sendEvent = options.eventHandler;
       }
-
       if (typeof options.userTimingHandler == 'function') {
           sendUserTiming = options.userTimingHandler;
       }
@@ -137,7 +139,7 @@ var riveted = (function() {
       } else {
 
         if (universalGA) {
-          ga('send', 'timing', 'Riveted', 'First Interaction', timingValue);
+          ga((universalGATrackerName !== undefined ? (universalGATrackerName + '.') : '') + 'send', 'timing', 'Riveted', 'First Interaction', timingValue);
         }
 
         if (classicGA) {
@@ -161,7 +163,7 @@ var riveted = (function() {
       } else {
 
         if (universalGA) {
-          ga('send', 'event', 'Riveted', 'Time Spent', time.toString(), reportInterval, {'nonInteraction': nonInteraction});
+          ga((universalGATrackerName !== undefined ? (universalGATrackerName + '.') : '') + 'send', 'event', 'Riveted', 'Time Spent', time.toString(), reportInterval, {'nonInteraction': nonInteraction});
         }
 
         if (classicGA) {
