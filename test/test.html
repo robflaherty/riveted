@@ -13,7 +13,7 @@
     console.log("dataLayer.push(" + JSON.stringify(data) + ");");
   };
 
-  var ga = function(params) {
+  var __gaTracker = function(params) {
     var args = Array.prototype.slice.call(arguments, 1);
     console.log("ga(" + args.join(',') + ");");
   };
@@ -23,18 +23,21 @@
   //ga = undefined;
 
   </script>
-  <script src="../riveted.min.js"></script>
+  <script src="../riveted.js"></script>
   <script>
     riveted.init({
       reportInterval: 2,
       idleTimeout: 5,
       nonInteraction: false,
-      eventHandler: function(event) {
+      gaGlobal: '__gaTracker'
+      
+      /*eventHandler: function(event) {
         console.log(event);
       },
       userTimingHandler: function(event) {
         console.log(event);
-      }
+      }*/
+
     });
   </script>
 </head>
