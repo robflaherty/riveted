@@ -1,7 +1,7 @@
 /*!
  * @preserve
  * riveted.js | v0.5.0
- * Copyright (c) 2014 Rob Flaherty (@robflaherty)
+ * Copyright (c) 2015 Rob Flaherty (@robflaherty)
  * Licensed under the MIT license
  */
 
