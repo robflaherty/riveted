@@ -37,6 +37,8 @@ If you have any questions you can find me on Twitter at [@robflaherty](https://t
 
 ## Changelog
 
+0.5.0 (4/14/15): Option for custom GA global name. Fixes problem with Yoast WP plugin.
+
 0.4.0 (7/19/14): https://github.com/robflaherty/riveted/issues/10
 
 0.3.2 (6/26/14): Fixed Google Tag Manager label.
