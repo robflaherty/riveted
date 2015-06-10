@@ -231,6 +231,15 @@ var riveted = (function() {
 
     }
 
+    function resetRiveted() {
+        startTime = new Date();
+        clockTime = 0;
+        started = false;
+        stopped = false;
+        clearTimeout(clockTimer);
+        clearTimeout(idleTimer);
+    }
+
     function trigger() {
 
       if (turnedOff) {
@@ -254,7 +263,8 @@ var riveted = (function() {
       trigger: trigger,
       setIdle: setIdle,
       on: turnOn,
-      off: turnOff
+      off: turnOff,
+      reset: resetRiveted
     };
 
   })();
