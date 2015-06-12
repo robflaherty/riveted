@@ -21,6 +21,7 @@ var riveted = (function() {
       nonInteraction,
       universalGA,
       classicGA,
+      universalGATrackerName,
       googleTagManager,
       gaGlobal;
 
@@ -49,13 +50,16 @@ var riveted = (function() {
         googleTagManager = true;
       }
 
+      if ('tracker' in options && typeof options.tracker === 'string') {
+        universalGATrackerName = options.tracker;
+      }
 
       if (typeof options.eventHandler == 'function') {
-          sendEvent = options.eventHandler;
+        sendEvent = options.eventHandler;
       }
 
       if (typeof options.userTimingHandler == 'function') {
-          sendUserTiming = options.userTimingHandler;
+        sendUserTiming = options.userTimingHandler;
       }
 
       if ('nonInteraction' in options && (options.nonInteraction === false || options.nonInteraction === 'false')) {
@@ -140,7 +144,7 @@ var riveted = (function() {
       } else {
 
         if (universalGA) {
-          window[gaGlobal]('send', 'timing', 'Riveted', 'First Interaction', timingValue);
+          window[gaGlobal]((universalGATrackerName !== undefined ? (universalGATrackerName + '.') : '') + 'send', 'timing', 'Riveted', 'First Interaction', timingValue);
         }
 
         if (classicGA) {
@@ -164,7 +168,7 @@ var riveted = (function() {
       } else {
 
         if (universalGA) {
-          window[gaGlobal]('send', 'event', 'Riveted', 'Time Spent', time.toString(), reportInterval, {'nonInteraction': nonInteraction});
+          window[gaGlobal]((universalGATrackerName !== undefined ? (universalGATrackerName + '.') : '') + 'send', 'event', 'Riveted', 'Time Spent', time.toString(), reportInterval, {'nonInteraction': nonInteraction});
         }
 
         if (classicGA) {
