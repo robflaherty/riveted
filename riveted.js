@@ -1,6 +1,6 @@
 /*!
  * @preserve
- * riveted.js | v0.5.0
+ * riveted.js | v0.6.0
  * Copyright (c) 2015 Rob Flaherty (@robflaherty)
  * Licensed under the MIT license
  */
@@ -232,12 +232,12 @@ var riveted = (function() {
     }
 
     function resetRiveted() {
-        startTime = new Date();
-        clockTime = 0;
-        started = false;
-        stopped = false;
-        clearTimeout(clockTimer);
-        clearTimeout(idleTimer);
+      startTime = new Date();
+      clockTime = 0;
+      started = false;
+      stopped = false;
+      clearTimeout(clockTimer);
+      clearTimeout(idleTimer);
     }
 
     function trigger() {
