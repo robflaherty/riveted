@@ -1,6 +1,6 @@
 /*!
  * @preserve
- * riveted.js | v0.5.0
+ * riveted.js | v0.6.0
  * Copyright (c) 2015 Rob Flaherty (@robflaherty)
  * Licensed under the MIT license
  */
@@ -21,6 +21,7 @@ var riveted = (function() {
       nonInteraction,
       universalGA,
       classicGA,
+      universalSendCommand,
       googleTagManager,
       gaGlobal;
 
@@ -49,13 +50,18 @@ var riveted = (function() {
         googleTagManager = true;
       }
 
+      if ('tracker' in options && typeof options.tracker === 'string') {
+        universalSendCommand = options.tracker + '.send';
+      } else {
+        universalSendCommand = 'send';
+      }
 
       if (typeof options.eventHandler == 'function') {
-          sendEvent = options.eventHandler;
+        sendEvent = options.eventHandler;
       }
 
       if (typeof options.userTimingHandler == 'function') {
-          sendUserTiming = options.userTimingHandler;
+        sendUserTiming = options.userTimingHandler;
       }
 
       if ('nonInteraction' in options && (options.nonInteraction === false || options.nonInteraction === 'false')) {
@@ -140,7 +146,7 @@ var riveted = (function() {
       } else {
 
         if (universalGA) {
-          window[gaGlobal]('send', 'timing', 'Riveted', 'First Interaction', timingValue);
+          window[gaGlobal](universalSendCommand, 'timing', 'Riveted', 'First Interaction', timingValue);
         }
 
         if (classicGA) {
@@ -164,7 +170,7 @@ var riveted = (function() {
       } else {
 
         if (universalGA) {
-          window[gaGlobal]('send', 'event', 'Riveted', 'Time Spent', time.toString(), reportInterval, {'nonInteraction': nonInteraction});
+          window[gaGlobal](universalSendCommand, 'event', 'Riveted', 'Time Spent', time.toString(), reportInterval, {'nonInteraction': nonInteraction});
         }
 
         if (classicGA) {
@@ -231,6 +237,15 @@ var riveted = (function() {
 
     }
 
+    function resetRiveted() {
+      startTime = new Date();
+      clockTime = 0;
+      started = false;
+      stopped = false;
+      clearTimeout(clockTimer);
+      clearTimeout(idleTimer);
+    }
+
     function trigger() {
 
       if (turnedOff) {
@@ -254,7 +269,8 @@ var riveted = (function() {
       trigger: trigger,
       setIdle: setIdle,
       on: turnOn,
-      off: turnOff
+      off: turnOff,
+      reset: resetRiveted
     };
 
   })();

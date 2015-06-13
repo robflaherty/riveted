@@ -14,7 +14,12 @@
   };
 
   var __gaTracker = function(params) {
-    var args = Array.prototype.slice.call(arguments, 1);
+    var args = Array.prototype.slice.call(arguments, 0);
+    console.log("__gaTracker(" + args.join(',') + ");");
+  };
+
+  var ga = function(params) {
+    var args = Array.prototype.slice.call(arguments, 0);
     console.log("ga(" + args.join(',') + ");");
   };
 
@@ -29,7 +34,8 @@
       reportInterval: 2,
       idleTimeout: 5,
       nonInteraction: false,
-      gaGlobal: '__gaTracker'
+      //gaGlobal: '__gaTracker',
+      tracker: 'fooo'
       
       /*eventHandler: function(event) {
         console.log(event);
