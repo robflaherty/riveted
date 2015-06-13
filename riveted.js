@@ -50,8 +50,8 @@ var riveted = (function() {
         googleTagManager = true;
       }
 
-      if ('tracker' in options && typeof options.tracker === 'string') {
-        universalSendCommand = options.tracker + '.send';
+      if ('gaTracker' in options && typeof options.gaTracker === 'string') {
+        universalSendCommand = options.gaTracker + '.send';
       } else {
         universalSendCommand = 'send';
       }
