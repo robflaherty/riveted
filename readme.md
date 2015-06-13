@@ -10,7 +10,7 @@ Background and more details can be found in this [blog post](http://parsnip.io/b
 There's also a blog post with information on [how to use the Google Analytics data that Riveted provides](https://medium.com/google-analytics/84d9981920da).
 
 ## WordPress Plugin
-Riveted is also available as a [WordPress plugin](http://wordpress.org/plugins/riveted/).
+Riveted is also available as a [WordPress plugin](http://wordpress.org/plugins/riveted/). Note that some of the more recent Riveted options are not available in the WP plugin. 
 
 1. Upload the `wp-plugin/riveted` directory into the `/wp-content/plugins/` directory on your server.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
@@ -28,6 +28,9 @@ If you'd like to integrate with Google Tag Manager, here are the dataLayer varia
 * User Timing Event Name = RivetedTiming
 * Timing Variable = {{timingVar}}
 * Timing Value = {{timingValue}}
+
+## Other Integrations
+You can install Riveted as a [Drupal module](https://www.drupal.org/project/riveted).
 
 ## Browser Support
 Tested in latest versions of Chrome, Firefox, Safari, and Opera. Internet Explorer 8-11. iOS and Android.
