@@ -21,7 +21,6 @@ var riveted = (function() {
       nonInteraction,
       universalGA,
       classicGA,
-      universalGATrackerName,
       universalSendCommand,
       googleTagManager,
       gaGlobal;
