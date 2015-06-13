@@ -33,7 +33,7 @@
   <h1>Riveted</h1>
   <h2>A Google Analytics plugin for measuring active time on site</h2>
 
-  <p>Google Analytics does a lot of things really well but the way it measures visit duration—by calculating the time difference between subsequent pageviews—provides only a partial view of how much time is actually spent on site.</p>
+  <p>Google Analytics does a lot of things really well but the way it measures visit duration—by calculating the time difference between pageviews—provides only a partial view of how much time is actually spent on site.</p>
 
   <p>Riveted helps fix this by measuring the amount of time users are actively engaged (e.g., clicking, scrolling, using the keyboard) and then reporting the data to Google Analytics in frequent intervals.
   </p>
@@ -79,7 +79,10 @@
 <p>By default, GA Events are sent with the Non-interaction option set to true. This keeps the event from impacting the bounce rate and visit duration. <strong>Caution</strong>: If you set this to false, the bounce rate will drop to near zero and the visit duration may leap. Make sure you know what you're doing before using this option.</p>
 
 <h3>gaGlobal</h3>
-<p>If using Universal Analytics this lets you set a custom name for the GA global object. You may need this option if you're using Yoast's analytics plugin, which changes the GA global name to <code>__gaTracker</code>.</p>
+<p>If you're using Universal Analytics this lets you set a custom name for the GA global object. You may need this option if you're using Yoast's analytics plugin, which changes the GA global name to <code>__gaTracker</code>.</p>
+
+<h3>gaTracker</h3>
+<p>If you're using Universal Analytics and tracking multiple properties on the same page, this option lets you specify which property Riveted should send data to.</p>
 
 <pre><code class="language-javascript">// Example with options
 riveted.init({
@@ -105,13 +108,16 @@ riveted.init({
 <p>There's also a custom event handler for the timing event. This fires only once and records the length of time (in milliseconds) from the initial page load to the first activity event.</p>
 
 <h2>Methods</h2>
-<p>There are a few methods for manually interacting with the Riveted timer.</p>
+<p>There are some methods for interacting directly with the Riveted timer.</p>
 
 <h3>riveted.trigger()</h3>
 <p>Calling this method restarts the Idle timer. One use for this would be to keep the Riveted timer running while the user watches a video.</p>
 
 <h3>riveted.setIdle()</h3>
 <p>This method stops the timer and sets the user to the Idle state. Any user action will reactivate it.</p>
+
+<h3>riveted.reset()</h3>
+<p>This method resets the clock. This is useful for asynchronous page navigation where you want to reset the page context client-side.</p>
 
 <h3>riveted.off()</h3>
 <p>This method completely turns the plugin off.</p>
