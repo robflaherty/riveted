@@ -57,3 +57,6 @@ If you have any questions you can find me on Twitter at [@robflaherty](https://t
 0.2 (2/13/14): Fixed GTM double firing.
 
 0.1 (2/9/14): Initial release.
+
+## License
+Licensed under the MIT license.
