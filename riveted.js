@@ -202,7 +202,7 @@ var riveted = (function() {
 
     function stopClock() {
       stopped = true;
-      clearTimeout(clockTimer);
+      clearInterval(clockTimer);
     }
 
     function turnOff() {
@@ -216,7 +216,7 @@ var riveted = (function() {
 
     function restartClock() {
       stopped = false;
-      clearTimeout(clockTimer);
+      clearInterval(clockTimer);
       clockTimer = setInterval(clock, 1000);
     }
 
@@ -242,7 +242,7 @@ var riveted = (function() {
       clockTime = 0;
       started = false;
       stopped = false;
-      clearTimeout(clockTimer);
+      clearInterval(clockTimer);
       clearTimeout(idleTimer);
     }
 
