@@ -1,0 +1,27 @@
+{
+  "name": "riveted",
+  "version": "0.6.0",
+  "description": "Riveted is a Google Analytics plugin that tracks how much time users spend actively engaged on a page.",
+  "main": "riveted.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/robflaherty/riveted.git"
+  },
+  "author": "Rob Flaherty",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/robflaherty/riveted/issues"
+  },
+  "keywords": [
+    "analytics",
+    "google analytics",
+    "time"
+  ],
+  "homepage": "http://riveted.parsnip.io/"
+}
