@@ -1,6 +1,6 @@
 {
   "name": "riveted",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Riveted is a Google Analytics plugin that tracks how much time users spend actively engaged on a page.",
   "main": "riveted.js",
   "directories": {

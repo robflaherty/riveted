@@ -10,7 +10,7 @@ Background and more details can be found in this [blog post](http://parsnip.io/b
 There's also a blog post with information on [how to use the Google Analytics data that Riveted provides](https://medium.com/google-analytics/84d9981920da).
 
 ## WordPress Plugin
-Riveted is also available as a [WordPress plugin](http://wordpress.org/plugins/riveted/). Note that some of the more recent Riveted options are not available in the WP plugin. 
+Riveted is also available as a [WordPress plugin](http://wordpress.org/plugins/riveted/). Note that some of the more recent Riveted options are not available in the WP plugin.
 
 1. Upload the `wp-plugin/riveted` directory into the `/wp-content/plugins/` directory on your server.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
@@ -39,6 +39,8 @@ Tested in latest versions of Chrome, Firefox, Safari, and Opera. Internet Explor
 If you have any questions you can find me on Twitter at [@robflaherty](https://twitter.com/robflaherty).
 
 ## Changelog
+
+0.6.1 (4/28/16): Added Universal Module Definition (UMD) support.
 
 0.6.0 (6/12/15): Added reset method and option for custom GA tracker.
 
