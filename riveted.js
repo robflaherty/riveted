@@ -1,29 +1,46 @@
 /*!
  * @preserve
- * riveted.js | v0.6.0
- * Copyright (c) 2015 Rob Flaherty (@robflaherty)
+ * riveted.js | v0.6.1
+ * Copyright (c) 2016 Rob Flaherty (@robflaherty)
  * Licensed under the MIT license
  */
 
+/* Universal module definition */
+
+(function (root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD
+    define([], factory);
+  } else if (typeof module === 'object' && module.exports) {
+    // CommonJS
+    module.exports = factory();
+  } else {
+    // Browser global
+    root.riveted = factory();
+  }
+}(this, function () {
+
+/* Riveted */
+
 var riveted = (function() {
 
-    var started = false,
-      stopped = false,
-      turnedOff = false,
-      clockTime = 0,
-      startTime = new Date(),
-      clockTimer = null,
-      idleTimer = null,
-      sendEvent,
-      sendUserTiming,
-      reportInterval,
-      idleTimeout,
-      nonInteraction,
-      universalGA,
-      classicGA,
-      universalSendCommand,
-      googleTagManager,
-      gaGlobal;
+  var started = false,
+    stopped = false,
+    turnedOff = false,
+    clockTime = 0,
+    startTime = new Date(),
+    clockTimer = null,
+    idleTimer = null,
+    sendEvent,
+    sendUserTiming,
+    reportInterval,
+    idleTimeout,
+    nonInteraction,
+    universalGA,
+    classicGA,
+    universalSendCommand,
+    googleTagManager,
+    gaGlobal;
 
     function init(options) {
 
@@ -274,3 +291,7 @@ var riveted = (function() {
     };
 
   })();
+
+  return riveted;
+
+}));
