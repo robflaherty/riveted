@@ -49,7 +49,7 @@ var riveted = (function() {
       options = options || {};
       reportInterval = parseInt(options.reportInterval, 10) || 5;
       idleTimeout = parseInt(options.idleTimeout, 10) || 30;
-      maxTime = parseInt(options.maxTime, 10) || 1e3;
+      maxTime = parseInt(options.maxTime, 10) || 1e10;
       gaGlobal = options.gaGlobal || 'ga';
 
       /*
