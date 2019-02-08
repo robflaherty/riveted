@@ -150,6 +150,8 @@ var riveted = (function() {
       }
     }
 
+    function gtag(){dataLayer.push(arguments);}
+
     /*
      * Function for logging User Timing event on initial interaction
      */
@@ -158,7 +160,11 @@ var riveted = (function() {
 
       if (googleTagManager) {
 
-        dataLayer.push({'event':'RivetedTiming', 'eventCategory':'Riveted', 'timingVar': 'First Interaction', 'timingValue': timingValue});
+        gtag('event', 'RivetedTiming', {
+          'event_category': 'Riveted',
+          'event_label': 'First Interaction',
+          'value': timingValue
+        });
 
       } else {
 
@@ -182,7 +188,12 @@ var riveted = (function() {
 
       if (googleTagManager) {
 
-        dataLayer.push({'event':'Riveted', 'eventCategory':'Riveted', 'eventAction': 'Time Spent', 'eventLabel': time, 'eventValue': reportInterval, 'eventNonInteraction': nonInteraction});
+        gtag('event', 'Time Spent', {
+          'event_category': 'Riveted',
+          'event_label': time,
+          'value': reportInterval,
+          'non_interaction': nonInteraction
+        });
 
       } else {
 
