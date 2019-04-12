@@ -38,7 +38,7 @@ var riveted = (function() {
     nonInteraction,
     universalGA,
     classicGA,
-    universalSendCommand,
+    universalSendCommands = [],
     googleTagManager,
     gaGlobal;
 
@@ -67,10 +67,20 @@ var riveted = (function() {
         googleTagManager = true;
       }
 
-      if ('gaTracker' in options && typeof options.gaTracker === 'string') {
-        universalSendCommand = options.gaTracker + '.send';
+      if ('gaTracker' in options && Array.isArray(options.gaTracker)) {
+        options.gaTracker.forEach(function(tracker) {
+          sendCommand = 'send';
+
+          if ('default' !== tracker) {
+            sendCommand = tracker + '.' + sendCommand;
+          }
+
+          universalSendCommands.push(sendCommand);
+        });
+      } else if ('gaTracker' in options && typeof options.gaTracker === 'string' && 'default' !== options.gaTracker) {
+        universalSendCommands.push(options.gaTracker + '.send');
       } else {
-        universalSendCommand = 'send';
+        universalSendCommands.push('send');
       }
 
       if (typeof options.eventHandler == 'function') {
@@ -163,7 +173,9 @@ var riveted = (function() {
       } else {
 
         if (universalGA) {
-          window[gaGlobal](universalSendCommand, 'timing', 'Riveted', 'First Interaction', timingValue);
+          universalSendCommands.forEach(function(sendCommand) {
+            window[gaGlobal](sendCommand, 'timing', 'Riveted', 'First Interaction', timingValue);
+          });
         }
 
         if (classicGA) {
@@ -187,7 +199,9 @@ var riveted = (function() {
       } else {
 
         if (universalGA) {
-          window[gaGlobal](universalSendCommand, 'event', 'Riveted', 'Time Spent', time.toString(), reportInterval, {'nonInteraction': nonInteraction});
+          universalSendCommands.forEach(function(sendCommand) {
+            window[gaGlobal](sendCommand, 'event', 'Riveted', 'Time Spent', time.toString(), reportInterval, {'nonInteraction': nonInteraction});
+          });
         }
 
         if (classicGA) {
