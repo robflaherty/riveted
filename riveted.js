@@ -63,7 +63,9 @@ var riveted = (function() {
         classicGA = true;
       }
 
-      if (typeof dataLayer !== "undefined" && typeof dataLayer.push === "function") {
+      if (options.googleTagManager) {
+        googleTagManager = options.googleTagManager;
+      } else if (typeof dataLayer !== "undefined" && typeof dataLayer.push === "function") {
         googleTagManager = true;
       }
 
