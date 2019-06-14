@@ -35,6 +35,7 @@ var riveted = (function() {
     sendUserTiming,
     reportInterval,
     idleTimeout,
+    maxTime,
     nonInteraction,
     universalGA,
     classicGA,
@@ -48,6 +49,7 @@ var riveted = (function() {
       options = options || {};
       reportInterval = parseInt(options.reportInterval, 10) || 5;
       idleTimeout = parseInt(options.idleTimeout, 10) || 30;
+      maxTime = parseInt(options.maxTime, 10) || 1e10;
       gaGlobal = options.gaGlobal || 'ga';
 
       /*
@@ -211,7 +213,7 @@ var riveted = (function() {
 
     function clock() {
       clockTime += 1;
-      if (clockTime > 0 && (clockTime % reportInterval === 0)) {
+      if (clockTime > 0 && clockTime < maxTime && (clockTime % reportInterval === 0)) {
         sendEvent(clockTime);
       }
 
