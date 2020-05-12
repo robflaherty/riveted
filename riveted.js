@@ -1,41 +1,108 @@
 /*!
- * riveted.js | v0.1
- * Copyright (c) 2014 Rob Flaherty (@robflaherty)
- * Licensed under the MIT and GPL licenses.
+ * @preserve
+ * riveted.js | v0.6.2
+ * Copyright (c) 2016 Rob Flaherty (@robflaherty)
+ * Licensed under the MIT license
  */
 
-;(function ($,window,document,undefined) {
-  
-  var defaults = {
-    elements: [],
-    minHeight: 0,
-    percentage: true,
-    testing: false
-  },
+/* Universal module definition */
 
-  $window = $(window),
-  
-  cache = [];
+(function (root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD
+    define([], factory);
+  } else if (typeof module === 'object' && module.exports) {
+    // CommonJS
+    module.exports = factory();
+  } else {
+    // Browser global
+    root.riveted = factory();
+  }
+}(this, function () {
 
-  /*
-   * Plugin
-   */
+/* Riveted */
 
-  $.riveted = function(options) {
-    
-    var active = false;
+var riveted = (function() {
 
-    options = $.extend({}, defaults, options);
+  var started = false,
+    stopped = false,
+    turnedOff = false,
+    clockTime = 0,
+    startTime = new Date(),
+    clockTimer = null,
+    idleTimer = null,
+    sendEvent,
+    sendUserTiming,
+    reportInterval,
+    idleTimeout,
+    nonInteraction,
+    universalGA,
+    classicGA,
+    universalSendCommand,
+    googleTagManager,
+    gtagFunc = false,
+    gaGlobal;
 
-    var setIdle;
+    function init(options) {
 
-    var startCount = 0;
+      // Set up options and defaults
+      options = options || {};
+      reportInterval = parseInt(options.reportInterval, 10) || 5;
+      idleTimeout = parseInt(options.idleTimeout, 10) || 30;
+      gaGlobal = options.gaGlobal || 'ga';
 
-    var started = false;
+      /*
+       * Determine which version of GA is being used
+       * "ga", "_gaq", and "dataLayer" are the possible globals
+       */
 
-    /*
-     * Functions
-     */
+      if (typeof window[gaGlobal] === "function") {
+        universalGA = true;
+      }
+
+      if (typeof _gaq !== "undefined" && typeof _gaq.push === "function") {
+        classicGA = true;
+      }
+
+      if (typeof dataLayer !== "undefined" && typeof dataLayer.push === "function") {
+        googleTagManager = true;
+      }
+
+      if(typeof gtag === 'function'){
+        gtagFunc = true;
+      }
+
+      if ('gaTracker' in options && typeof options.gaTracker === 'string') {
+        universalSendCommand = options.gaTracker + '.send';
+      } else {
+        universalSendCommand = 'send';
+      }
+
+      if (typeof options.eventHandler == 'function') {
+        sendEvent = options.eventHandler;
+      }
+
+      if (typeof options.userTimingHandler == 'function') {
+        sendUserTiming = options.userTimingHandler;
+      }
+
+      if ('nonInteraction' in options && (options.nonInteraction === false || options.nonInteraction === 'false')) {
+        nonInteraction = false;
+      } else {
+        nonInteraction = true;
+      }
+
+      // Basic activity event listeners
+      addListener(document, 'keydown', trigger);
+      addListener(document, 'click', trigger);
+      addListener(window, 'mousemove', throttle(trigger, 500));
+      addListener(window, 'scroll', throttle(trigger, 500));
+
+      // Page visibility listeners
+      addListener(document, 'visibilitychange', visibilityChange);
+      addListener(document, 'webkitvisibilitychange', visibilityChange);
+    }
+
 
     /*
      * Throttle function borrowed from:
@@ -70,92 +137,176 @@
         }
         return result;
       };
-    }     
+    }
 
-    function sendEvent(action, label) {
+    /*
+     * Cross-browser event listening
+     */
 
-      console.log('Ping');
+    function addListener(element, eventName, handler) {
+      if (element.addEventListener) {
+        element.addEventListener(eventName, handler, false);
+      }
+      else if (element.attachEvent) {
+        element.attachEvent('on' + eventName, handler);
+      }
+      else {
+        element['on' + eventName] = handler;
+      }
+    }
 
-      if (!options.testing) {
+    /*
+     * Function for logging User Timing event on initial interaction
+     */
 
-        if (typeof(ga) !== "undefined") {
-          //ga('send', 'event', 'Riveted', action, label, 1);
-        }
+    sendUserTiming = function (timingValue) {
 
-        if (typeof(_gaq) !== "undefined") {
-          //_gaq.push(['_trackEvent', 'Riveted', action, label, 1]);
-        }
-
-        if (typeof(dataLayer) !== "undefined") {
-          //dataLayer.push({'event':'Riveted', 'eventCategory':'Riveted', 'eventAction': action, 'eventLabel': label, 'eventValue': 1});
+      if (googleTagManager) {
+        if (gtagFunc){
+          gtag('event', 'RivetedTiming', {'event_category':'Riveted', 'event_label': 'First Interaction', 'value': timingValue});
+        } else {
+          dataLayer.push({'event':'RivetedTiming', 'eventCategory':'Riveted', 'timingVar': 'First Interaction', 'timingValue': timingValue});
         }
 
       } else {
 
-        console.log('action: ' + action + '; label: ' + label);
+        if (universalGA) {
+          window[gaGlobal](universalSendCommand, 'timing', 'Riveted', 'First Interaction', timingValue);
+        }
 
+        if (classicGA) {
+          _gaq.push(['_trackTiming', 'Riveted', 'First Interaction', timingValue, null, 100]);
+        }
+
+      }
+
+    };
+
+    /*
+     * Function for logging ping events
+     */
+
+    sendEvent = function (time) {
+
+      if (googleTagManager) {
+        if (gtagFunc){
+
+          gtag('event','Riveted', {'event_category':'Riveted', 'event_action': 'Time Spent', 'event_label': time, 'value': reportInterval, 'non_interaction': nonInteraction});
+
+        } else {
+
+          dataLayer.push({'event':'Riveted', 'eventCategory':'Riveted', 'eventAction': 'Time Spent', 'eventLabel': time, 'eventValue': reportInterval, 'eventNonInteraction': nonInteraction});
+          
+        }
+
+      } else {
+
+        if (universalGA) {
+          window[gaGlobal](universalSendCommand, 'event', 'Riveted', 'Time Spent', time.toString(), reportInterval, {'nonInteraction': nonInteraction});
+        }
+
+        if (classicGA) {
+          _gaq.push(['_trackEvent', 'Riveted', 'Time Spent', time.toString(), reportInterval, nonInteraction]);
+        }
+
+      }
+
+    };
+
+    function setIdle() {
+      clearTimeout(idleTimer);
+      stopClock();
+    }
+
+    function visibilityChange() {
+      if (document.hidden || document.webkitHidden) {
+        setIdle();
       }
     }
 
-    function checkIdle() {
-      active = false;
-      console.log('Setting to false');
+    function clock() {
+      clockTime += 1;
+      if (clockTime > 0 && (clockTime % reportInterval === 0)) {
+        sendEvent(clockTime);
+      }
+
     }
 
+    function stopClock() {
+      stopped = true;
+      clearInterval(clockTimer);
+    }
 
+    function turnOff() {
+      setIdle();
+      turnedOff = true;
+    }
 
-    function startRiveted(diff) {
-      
+    function turnOn() {
+      turnedOff = false;
+    }
+
+    function restartClock() {
+      stopped = false;
+      clearInterval(clockTimer);
+      clockTimer = setInterval(clock, 1000);
+    }
+
+    function startRiveted() {
+
+      // Calculate seconds from start to first interaction
+      var currentTime = new Date();
+      var diff = currentTime - startTime;
+
+      // Set global
       started = true;
 
-      setIdle = setTimeout(checkIdle, 3000);
+      // Send User Timing Event
+      sendUserTiming(diff);
 
-      var pingCheck = setInterval(function() {
-        if (active) {
-          sendEvent('Ping', currentCount);
-        } else {
-          console.log('Idle');
-        }
-      }, 1000);
-
-
-
+      // Start clock
+      clockTimer = setInterval(clock, 1000);
 
     }
 
-/*
- * Time lapsed until engaged could be an interesting metric.
- * Send a user timing event on the first ping? I think so.
- */
+    function resetRiveted() {
+      startTime = new Date();
+      clockTime = 0;
+      started = false;
+      stopped = false;
+      clearInterval(clockTimer);
+      clearTimeout(idleTimer);
+    }
 
-    function resetActive() {
+    function trigger() {
 
-      console.log('reset');
-
-      var currentTime = new Date();
-      var diff = Math.floor((currentTime - startTime)/1000);  
+      if (turnedOff) {
+        return;
+      }
 
       if (!started) {
-        startRiveted(diff);
-      } else {
-        active = true;
-        clearTimeout(setIdle);
-        setIdle = setTimeout(checkIdle, 3000);
+        startRiveted();
       }
+
+      if (stopped) {
+        restartClock();
+      }
+
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(setIdle, idleTimeout * 1000 + 100);
     }
 
-    function init() {
+    return {
+      init: init,
+      trigger: trigger,
+      setIdle: setIdle,
+      on: turnOn,
+      off: turnOff,
+      reset: resetRiveted
+    };
 
-      var startTime = Date.now();
+  })();
 
-      $(document).on('keypress click', resetActive);
-      $(window).on('scroll', throttle(resetActive, 500));
+  return riveted;
 
-    }
-
-    init();
-
-
-  };
-
-})(jQuery,window,document);
+}));
