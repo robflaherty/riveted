@@ -163,9 +163,13 @@ var riveted = (function() {
 
       if (googleTagManager) {
         if (gtagFunc){
+
           gtag('event', 'RivetedTiming', {'event_category':'Riveted', 'event_label': 'First Interaction', 'value': timingValue});
+
         } else {
+
           dataLayer.push({'event':'RivetedTiming', 'eventCategory':'Riveted', 'timingVar': 'First Interaction', 'timingValue': timingValue});
+          
         }
 
       } else {
